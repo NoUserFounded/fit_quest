@@ -1,0 +1,7 @@
+
+
+
+analyzer:
+  exclude:
+    - lib/custom_code/**
+    - lib/fit_quest/custom_functions.dart
