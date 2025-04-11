@@ -1,10 +1,17 @@
+import '/auth/supabase_auth/auth_util.dart';
+import '/backend/schema/structs/index.dart';
+import '/backend/supabase/supabase.dart';
+import '/components/info_message/info_message_widget.dart';
+import '/fit_quest/fit_quest_drop_down.dart';
 import '/fit_quest/fit_quest_icon_button.dart';
 import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
 import '/fit_quest/fit_quest_widgets.dart';
-import '/fit_quest/upload_data.dart';
+import '/fit_quest/form_field_controller.dart';
+import '/profile/change_photo/change_photo_widget.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'editprofile_model.dart';
 export 'editprofile_model.dart';
 
@@ -28,22 +35,24 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
     super.initState();
     _model = createModel(context, () => EditprofileModel());
 
-    _model.yourNameTextController1 ??= TextEditingController();
-    _model.yourNameFocusNode1 ??= FocusNode();
+    _model.usernameTextController ??=
+        TextEditingController(text: FFAppState().userInfo.username);
+    _model.usernameFocusNode ??= FocusNode();
 
-    _model.yourNameTextController2 ??= TextEditingController();
-    _model.yourNameFocusNode2 ??= FocusNode();
+    _model.emailTextController ??=
+        TextEditingController(text: currentUserEmail);
+    _model.emailFocusNode ??= FocusNode();
 
-    _model.yourNameTextController3 ??= TextEditingController();
-    _model.yourNameFocusNode3 ??= FocusNode();
-
-    _model.mobileTextController ??= TextEditingController();
-    _model.mobileFocusNode ??= FocusNode();
-
-    _model.locationTextController ??= TextEditingController();
-    _model.locationFocusNode ??= FocusNode();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+    _model.dateOfBirthTextController ??= TextEditingController();
+    _model.dateOfBirthFocusNode ??= FocusNode();
+    _model.dateOfBirthFocusNode!.addListener(() => safeSetState(() {}));
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {
+          _model.dateOfBirthTextController?.text = dateTimeFormat(
+            "d/M/y",
+            FFAppState().userInfo.birthday,
+            locale: FFLocalizations.of(context).languageCode,
+          );
+        }));
   }
 
   @override
@@ -55,6 +64,8 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -62,7 +73,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: fit_questTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: Column(
@@ -115,14 +126,14 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           12.0, 0.0, 0.0, 0.0),
-                                      child: FlutterFlowIconButton(
+                                      child: fit_questIconButton(
                                         borderColor: Colors.transparent,
                                         borderRadius: 3.0,
                                         borderWidth: 1.0,
                                         buttonSize: 50.0,
                                         icon: Icon(
                                           Icons.arrow_back_rounded,
-                                          color: FlutterFlowTheme.of(context)
+                                          color: fit_questTheme.of(context)
                                               .primaryText,
                                           size: 30.0,
                                         ),
@@ -142,9 +153,12 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 50.0, 0.0),
                                             child: Text(
-                                              'Editar Perfil',
+                                              FFLocalizations.of(context)
+                                                  .getText(
+                                                'qnfvpq1l' /* Editar Perfil */,
+                                              ),
                                               style:
-                                                  FlutterFlowTheme.of(context)
+                                                  fit_questTheme.of(context)
                                                       .headlineMedium
                                                       .override(
                                                         fontFamily: 'Outfit',
@@ -188,7 +202,10 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       shape: BoxShape.circle,
                                     ),
                                     child: Image.network(
-                                      'https://images.unsplash.com/photo-1536164261511-3a17e671d380?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=630&q=80',
+                                      valueOrDefault<String>(
+                                        FFAppState().userInfo.profilePicture,
+                                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+                                      ),
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),
@@ -206,47 +223,35 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
-                                  final selectedMedia = await selectMedia(
-                                    mediaSource: MediaSource.photoGallery,
-                                    multiImage: false,
-                                  );
-                                  if (selectedMedia != null &&
-                                      selectedMedia.every((m) =>
-                                          validateFileFormat(
-                                              m.storagePath, context))) {
-                                    safeSetState(
-                                        () => _model.isDataUploading = true);
-                                    var selectedUploadedFiles =
-                                        <FFUploadedFile>[];
-
-                                    try {
-                                      selectedUploadedFiles = selectedMedia
-                                          .map((m) => FFUploadedFile(
-                                                name: m.storagePath
-                                                    .split('/')
-                                                    .last,
-                                                bytes: m.bytes,
-                                                height: m.dimensions?.height,
-                                                width: m.dimensions?.width,
-                                                blurHash: m.blurHash,
-                                              ))
-                                          .toList();
-                                    } finally {
-                                      _model.isDataUploading = false;
-                                    }
-                                    if (selectedUploadedFiles.length ==
-                                        selectedMedia.length) {
-                                      safeSetState(() {
-                                        _model.uploadedLocalFile =
-                                            selectedUploadedFiles.first;
-                                      });
-                                    } else {
-                                      safeSetState(() {});
-                                      return;
-                                    }
-                                  }
+                                  await showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.transparent,
+                                    enableDrag: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          FocusScope.of(context).unfocus();
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        },
+                                        child: Padding(
+                                          padding:
+                                              MediaQuery.viewInsetsOf(context),
+                                          child: Container(
+                                            height: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.75,
+                                            child: ChangePhotoWidget(),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).then((value) => safeSetState(() {}));
                                 },
-                                text: 'Change Photo',
+                                text: FFLocalizations.of(context).getText(
+                                  '576egk7x' /* Canviar Foto */,
+                                ),
                                 options: FFButtonOptions(
                                   width: 130.0,
                                   height: 40.0,
@@ -254,9 +259,9 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       0.0, 0.0, 0.0, 0.0),
                                   iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context)
+                                  color: fit_questTheme.of(context)
                                       .secondaryBackground,
-                                  textStyle: FlutterFlowTheme.of(context)
+                                  textStyle: fit_questTheme.of(context)
                                       .bodyMedium
                                       .override(
                                         fontFamily: 'Lexend Deca',
@@ -279,22 +284,26 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 16.0),
                           child: TextFormField(
-                            controller: _model.yourNameTextController1,
-                            focusNode: _model.yourNameFocusNode1,
+                            controller: _model.usernameTextController,
+                            focusNode: _model.usernameFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Nom:',
-                              labelStyle: FlutterFlowTheme.of(context)
+                              labelText: FFAppState().userInfo.username,
+                              labelStyle: fit_questTheme.of(context)
                                   .bodySmall
                                   .override(
                                     fontFamily: 'Inter',
                                     color: Color(0xFF04B974),
                                     letterSpacing: 0.0,
                                   ),
-                              hintStyle: FlutterFlowTheme.of(context)
+                              hintText: FFLocalizations.of(context).getText(
+                                '8db5tlbw' /* Nom d'usuari: */,
+                              ),
+                              hintStyle: fit_questTheme.of(context)
                                   .bodySmall
                                   .override(
                                     fontFamily: 'Inter',
+                                    color: Color(0xFF04B974),
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
@@ -326,19 +335,20 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context)
+                              fillColor: fit_questTheme.of(context)
                                   .primaryBackground,
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 24.0, 0.0, 24.0),
                             ),
-                            style: FlutterFlowTheme.of(context)
+                            style: fit_questTheme.of(context)
                                 .bodyMedium
                                 .override(
                                   fontFamily: 'Inter',
+                                  color: Color(0xFF04B974),
                                   letterSpacing: 0.0,
                                 ),
                             maxLines: null,
-                            validator: _model.yourNameTextController1Validator
+                            validator: _model.usernameTextControllerValidator
                                 .asValidator(context),
                           ),
                         ),
@@ -346,22 +356,26 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                           padding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 16.0),
                           child: TextFormField(
-                            controller: _model.yourNameTextController2,
-                            focusNode: _model.yourNameFocusNode2,
+                            controller: _model.emailTextController,
+                            focusNode: _model.emailFocusNode,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Cognom:',
-                              labelStyle: FlutterFlowTheme.of(context)
+                              labelText: currentUserEmail,
+                              labelStyle: fit_questTheme.of(context)
                                   .bodySmall
                                   .override(
                                     fontFamily: 'Inter',
                                     color: Color(0xFF04B974),
                                     letterSpacing: 0.0,
                                   ),
-                              hintStyle: FlutterFlowTheme.of(context)
+                              hintText: FFLocalizations.of(context).getText(
+                                'lv4na8pt' /* email: */,
+                              ),
+                              hintStyle: fit_questTheme.of(context)
                                   .bodySmall
                                   .override(
                                     fontFamily: 'Inter',
+                                    color: fit_questTheme.of(context).primary,
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
@@ -393,257 +407,321 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                 borderRadius: BorderRadius.circular(12.0),
                               ),
                               filled: true,
-                              fillColor: FlutterFlowTheme.of(context)
+                              fillColor: fit_questTheme.of(context)
                                   .primaryBackground,
                               contentPadding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 24.0, 0.0, 24.0),
                             ),
-                            style: FlutterFlowTheme.of(context)
+                            style: fit_questTheme.of(context)
                                 .bodyMedium
                                 .override(
                                   fontFamily: 'Inter',
+                                  color: Color(0xFF04B974),
                                   letterSpacing: 0.0,
                                 ),
                             maxLines: null,
-                            validator: _model.yourNameTextController2Validator
+                            validator: _model.emailTextControllerValidator
                                 .asValidator(context),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              20.0, 0.0, 20.0, 16.0),
-                          child: TextFormField(
-                            controller: _model.yourNameTextController3,
-                            focusNode: _model.yourNameFocusNode3,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelText: 'Email:',
-                              labelStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    fontFamily: 'Inter',
+                              0.0, 0.0, 0.0, 16.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20.0, 0.0, 0.0, 0.0),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.2,
+                                    child: TextFormField(
+                                      controller:
+                                          _model.dateOfBirthTextController,
+                                      focusNode: _model.dateOfBirthFocusNode,
+                                      autofocus: false,
+                                      textCapitalization:
+                                          TextCapitalization.words,
+                                      readOnly: true,
+                                      obscureText: false,
+                                      decoration: InputDecoration(
+                                        labelText: FFAppState()
+                                            .userInfo
+                                            .birthday
+                                            ?.toString(),
+                                        labelStyle: fit_questTheme.of(context)
+                                            .labelLarge
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              color: Color(0xFF04B974),
+                                              letterSpacing: 0.0,
+                                            ),
+                                        hintStyle: fit_questTheme.of(context)
+                                            .labelMedium
+                                            .override(
+                                              fontFamily: 'Poppins',
+                                              letterSpacing: 0.0,
+                                            ),
+                                        errorStyle: fit_questTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Inter',
+                                              color:
+                                                  fit_questTheme.of(context)
+                                                      .error,
+                                              fontSize: 12.0,
+                                              letterSpacing: 0.0,
+                                            ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xFF04B974),
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: fit_questTheme.of(context)
+                                                .primary,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        errorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: fit_questTheme.of(context)
+                                                .error,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: fit_questTheme.of(context)
+                                                .error,
+                                            width: 1.0,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(12.0),
+                                        ),
+                                        filled: true,
+                                        fillColor: fit_questTheme.of(context)
+                                            .primaryBackground,
+                                        contentPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                16.0, 20.0, 16.0, 20.0),
+                                      ),
+                                      style: fit_questTheme.of(context)
+                                          .bodyLarge
+                                          .override(
+                                            fontFamily: 'Poppins',
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                      cursorColor:
+                                          fit_questTheme.of(context).primary,
+                                      validator: _model
+                                          .dateOfBirthTextControllerValidator
+                                          .asValidator(context),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 20.0, 0.0),
+                                child: fit_questIconButton(
+                                  borderColor: Color(0xFF04B974),
+                                  borderRadius: 8.0,
+                                  borderWidth: 1.0,
+                                  buttonSize:
+                                      MediaQuery.sizeOf(context).width * 0.15,
+                                  fillColor: fit_questTheme.of(context)
+                                      .primaryBackground,
+                                  icon: Icon(
+                                    Icons.edit_square,
                                     color: Color(0xFF04B974),
-                                    letterSpacing: 0.0,
+                                    size: 24.0,
                                   ),
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                  ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF04B974),
-                                  width: 1.0,
+                                  onPressed: () async {
+                                    final _datePickedDate =
+                                        await showDatePicker(
+                                      context: context,
+                                      barrierDismissible: false,
+                                      initialDate: getCurrentTimestamp,
+                                      firstDate:
+                                          (DateTime.fromMicrosecondsSinceEpoch(
+                                                  1174946400000000) ??
+                                              DateTime(1900)),
+                                      lastDate: DateTime(2050),
+                                    );
+
+                                    if (_datePickedDate != null) {
+                                      safeSetState(() {
+                                        _model.datePicked = DateTime(
+                                          _datePickedDate.year,
+                                          _datePickedDate.month,
+                                          _datePickedDate.day,
+                                        );
+                                      });
+                                    } else if (_model.datePicked != null) {
+                                      safeSetState(() {
+                                        _model.datePicked = getCurrentTimestamp;
+                                      });
+                                    }
+                                    FFAppState().updateUserInfoStruct(
+                                      (e) => e..birthday = _model.datePicked,
+                                    );
+                                    safeSetState(() {});
+                                  },
                                 ),
-                                borderRadius: BorderRadius.circular(12.0),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF04B974),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              filled: true,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 24.0, 0.0, 24.0),
-                            ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Inter',
-                                  letterSpacing: 0.0,
-                                ),
-                            maxLines: null,
-                            validator: _model.yourNameTextController3Validator
-                                .asValidator(context),
+                            ].divide(SizedBox(width: 10.0)),
                           ),
                         ),
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               20.0, 0.0, 20.0, 16.0),
-                          child: TextFormField(
-                            controller: _model.mobileTextController,
-                            focusNode: _model.mobileFocusNode,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelText: 'Mòbil:',
-                              labelStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    color: Color(0xFF04B974),
-                                    letterSpacing: 0.0,
-                                  ),
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                  ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF04B974),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF04B974),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              filled: true,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 24.0, 0.0, 24.0),
+                          child: fit_questDropDown<String>(
+                            controller: _model.genderValueController ??=
+                                FormFieldController<String>(
+                              _model.genderValue ??=
+                                  FFAppState().userInfo.username,
                             ),
-                            style: FlutterFlowTheme.of(context)
+                            options: [
+                              FFLocalizations.of(context).getText(
+                                '7slvbrsw' /* Masculi */,
+                              ),
+                              FFLocalizations.of(context).getText(
+                                '90s2s4o4' /* Femeni */,
+                              ),
+                              FFLocalizations.of(context).getText(
+                                'ebn9jb9l' /* Altres */,
+                              )
+                            ],
+                            onChanged: (val) =>
+                                safeSetState(() => _model.genderValue = val),
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: 50.0,
+                            textStyle: fit_questTheme.of(context)
                                 .bodyMedium
                                 .override(
                                   fontFamily: 'Inter',
+                                  color: Color(0xFF04B974),
                                   letterSpacing: 0.0,
                                 ),
-                            maxLines: null,
-                            validator: _model.mobileTextControllerValidator
-                                .asValidator(context),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(
-                              20.0, 0.0, 20.0, 16.0),
-                          child: TextFormField(
-                            controller: _model.locationTextController,
-                            focusNode: _model.locationFocusNode,
-                            obscureText: false,
-                            decoration: InputDecoration(
-                              labelText: 'Adreça:',
-                              labelStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    color: Color(0xFF04B974),
-                                    letterSpacing: 0.0,
-                                  ),
-                              hintStyle: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    fontFamily: 'Inter',
-                                    letterSpacing: 0.0,
-                                  ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF04B974),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xFF04B974),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0x00000000),
-                                  width: 1.0,
-                                ),
-                                borderRadius: BorderRadius.circular(12.0),
-                              ),
-                              filled: true,
-                              fillColor: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 24.0, 0.0, 24.0),
+                            hintText: FFLocalizations.of(context).getText(
+                              'ateunvwx' /* Genere... */,
                             ),
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Inter',
-                                  letterSpacing: 0.0,
-                                ),
-                            maxLines: null,
-                            minLines: 3,
-                            validator: _model.locationTextControllerValidator
-                                .asValidator(context),
+                            icon: Icon(
+                              Icons.keyboard_arrow_down_rounded,
+                              color: fit_questTheme.of(context).secondaryText,
+                              size: 24.0,
+                            ),
+                            fillColor:
+                                fit_questTheme.of(context).primaryBackground,
+                            elevation: 2.0,
+                            borderColor: Color(0xFF04B974),
+                            borderWidth: 1.0,
+                            borderRadius: 8.0,
+                            margin: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 12.0, 0.0),
+                            hidesUnderline: true,
+                            isOverButton: false,
+                            isSearchable: false,
+                            isMultiSelect: false,
                           ),
                         ),
                         Align(
                           alignment: AlignmentDirectional(0.0, 0.05),
-                          child: Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                20.0, 24.0, 20.0, 0.0),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                context.pushNamed(ProfileWidget.routeName);
-                              },
-                              text: 'Guardar Canvis:',
-                              options: FFButtonOptions(
-                                width: double.infinity,
-                                height: 44.0,
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color: Color(0xFF04B974),
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'Lexend Deca',
-                                      color: Colors.white,
-                                      fontSize: 16.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.normal,
+                          child: Builder(
+                            builder: (context) => Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  20.0, 24.0, 20.0, 0.0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  await UsuarisTable().update(
+                                    data: {
+                                      'nom_usuari':
+                                          _model.usernameTextController.text,
+                                      'data_naixement': supaSerialize<DateTime>(
+                                          FFAppState().userInfo.birthday),
+                                      'genere': _model.genderValue,
+                                    },
+                                    matchingRows: (rows) => rows.eqOrNull(
+                                      'id',
+                                      currentUserUid,
                                     ),
-                                elevation: 2.0,
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 1.0,
+                                  );
+                                  FFAppState().userInfo = UserStruct(
+                                    username:
+                                        _model.usernameTextController.text,
+                                    gender: _model.genderValue,
+                                  );
+                                  safeSetState(() {});
+                                  await showDialog(
+                                    context: context,
+                                    builder: (dialogContext) {
+                                      return Dialog(
+                                        elevation: 0,
+                                        insetPadding: EdgeInsets.zero,
+                                        backgroundColor: Colors.transparent,
+                                        alignment:
+                                            AlignmentDirectional(0.0, 0.0)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            FocusScope.of(dialogContext)
+                                                .unfocus();
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                          },
+                                          child: InfoMessageWidget(
+                                            title: 'Canvis guardats',
+                                            description:
+                                                'S\'han guardat els canvis correctament!',
+                                            isError: false,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+
+                                  context.pushNamed(ProfileWidget.routeName);
+                                },
+                                text: FFLocalizations.of(context).getText(
+                                  '244v55e0' /* Guardar Canvis */,
                                 ),
-                                borderRadius: BorderRadius.circular(16.0),
+                                options: FFButtonOptions(
+                                  width: double.infinity,
+                                  height: 44.0,
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: Color(0xFF04B974),
+                                  textStyle: fit_questTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Lexend Deca',
+                                        color: Colors.white,
+                                        fontSize: 16.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                  elevation: 2.0,
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(16.0),
+                                ),
                               ),
                             ),
                           ),

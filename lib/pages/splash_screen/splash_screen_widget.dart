@@ -1,6 +1,12 @@
+import '/auth/supabase_auth/auth_util.dart';
+import '/backend/supabase/supabase.dart';
 import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:provider/provider.dart';
 import 'splash_screen_model.dart';
 export 'splash_screen_model.dart';
 
@@ -24,7 +30,48 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
     super.initState();
     _model = createModel(context, () => SplashScreenModel());
 
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (currentUserUid != '') {
+        _model.amistats = await AmistatsTable().queryRows(
+          queryFn: (q) =>
+              q.or("usuari.eq.${currentUserUid}, amic.eq.${currentUserUid}"),
+        );
+        _model.mevesAmistats = await actions.saveFriendsList(
+          _model.amistats?.toList(),
+          currentUserUid,
+        );
+        FFAppState().solicitudEnviades = getJsonField(
+          _model.mevesAmistats,
+          r'''$.solicituds.enviades''',
+          true,
+        )!
+            .toList()
+            .cast<dynamic>();
+        FFAppState().solicitudsRebudes = getJsonField(
+          _model.mevesAmistats,
+          r'''$.solicituds.rebudes''',
+          true,
+        )!
+            .toList()
+            .cast<dynamic>();
+        FFAppState().amistats = getJsonField(
+          _model.mevesAmistats,
+          r'''$.amistats''',
+          true,
+        )!
+            .toList()
+            .cast<dynamic>();
+        safeSetState(() {});
+        await Future.delayed(const Duration(milliseconds: 1000));
+
+        context.pushNamed(ReptesListWidget.routeName);
+
+        return;
+      } else {
+        return;
+      }
+    });
   }
 
   @override
@@ -36,6 +83,8 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -43,7 +92,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).alternate,
+        backgroundColor: fit_questTheme.of(context).alternate,
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +101,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget> {
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 1.0,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).primaryBackground,
+                color: fit_questTheme.of(context).primaryBackground,
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.max,

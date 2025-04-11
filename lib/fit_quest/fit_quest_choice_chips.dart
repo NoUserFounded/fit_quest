@@ -34,8 +34,8 @@ class ChipStyle {
   final BorderRadius? borderRadius;
 }
 
-class FlutterFlowChoiceChips extends StatefulWidget {
-  const FlutterFlowChoiceChips({
+class fit_questChoiceChips extends StatefulWidget {
+  const fit_questChoiceChips({
     super.key,
     required this.options,
     required this.onChanged,
@@ -65,10 +65,10 @@ class FlutterFlowChoiceChips extends StatefulWidget {
   final bool wrapped;
 
   @override
-  State<FlutterFlowChoiceChips> createState() => _FlutterFlowChoiceChipsState();
+  State<fit_questChoiceChips> createState() => _fit_questChoiceChipsState();
 }
 
-class _FlutterFlowChoiceChipsState extends State<FlutterFlowChoiceChips> {
+class _fit_questChoiceChipsState extends State<fit_questChoiceChips> {
   late List<String> choiceChipValues;
   List<String> get selectedValues => widget.controller.value ?? [];
 

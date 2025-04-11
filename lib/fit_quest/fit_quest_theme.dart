@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 const kThemeModeKey = '__theme_mode__';
 SharedPreferences? _prefs;
 
-abstract class FlutterFlowTheme {
+abstract class fit_questTheme {
   static Future initialize() async =>
       _prefs = await SharedPreferences.getInstance();
   static ThemeMode get themeMode {
@@ -24,7 +24,7 @@ abstract class FlutterFlowTheme {
       ? _prefs?.remove(kThemeModeKey)
       : _prefs?.setBool(kThemeModeKey, mode == ThemeMode.dark);
 
-  static FlutterFlowTheme of(BuildContext context) {
+  static fit_questTheme of(BuildContext context) {
     return Theme.of(context).brightness == Brightness.dark
         ? DarkModeTheme()
         : LightModeTheme();
@@ -132,7 +132,7 @@ abstract class FlutterFlowTheme {
   Typography get typography => ThemeTypography(this);
 }
 
-class LightModeTheme extends FlutterFlowTheme {
+class LightModeTheme extends fit_questTheme {
   @Deprecated('Use primary instead')
   Color get primaryColor => primary;
   @Deprecated('Use secondary instead')
@@ -209,7 +209,7 @@ abstract class Typography {
 class ThemeTypography extends Typography {
   ThemeTypography(this.theme);
 
-  final FlutterFlowTheme theme;
+  final fit_questTheme theme;
 
   String get displayLargeFamily => 'Poppins';
   TextStyle get displayLarge => GoogleFonts.getFont(
@@ -318,7 +318,7 @@ class ThemeTypography extends Typography {
       );
 }
 
-class DarkModeTheme extends FlutterFlowTheme {
+class DarkModeTheme extends fit_questTheme {
   @Deprecated('Use primary instead')
   Color get primaryColor => primary;
   @Deprecated('Use secondary instead')

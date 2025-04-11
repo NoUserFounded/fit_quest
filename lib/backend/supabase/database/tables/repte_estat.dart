@@ -20,6 +20,9 @@ class RepteEstatRow extends SupabaseDataRow {
   String? get idUsuari => getField<String>('id_usuari');
   set idUsuari(String? value) => setField<String>('id_usuari', value);
 
-  String get estat => getField<String>('estat')!;
-  set estat(String value) => setField<String>('estat', value);
+  int get id => getField<int>('id')!;
+  set id(int value) => setField<int>('id', value);
+
+  String? get status => getField<String>('status');
+  set status(String? value) => setField<String>('status', value);
 }

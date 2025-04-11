@@ -1,9 +1,10 @@
+import '/backend/supabase/supabase.dart';
 import '/fit_quest/fit_quest_util.dart';
 import '/index.dart';
 import 'auth_page_widget.dart' show AuthPageWidget;
 import 'package:flutter/material.dart';
 
-class AuthPageModel extends FlutterFlowModel<AuthPageWidget> {
+class AuthPageModel extends fit_questModel<AuthPageWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -20,11 +21,15 @@ class AuthPageModel extends FlutterFlowModel<AuthPageWidget> {
   String? _emailAddressCreateTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Email is required';
+      return FFLocalizations.of(context).getText(
+        'hpsr1nmv' /* Email is required */,
+      );
     }
 
     if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'Este campo es obligatorio*';
+      return FFLocalizations.of(context).getText(
+        'w4a05x2e' /* Este campo es obligatorio* */,
+      );
     }
     return null;
   }
@@ -42,7 +47,9 @@ class AuthPageModel extends FlutterFlowModel<AuthPageWidget> {
     }
 
     if (val.length < 1) {
-      return 'Este campo es obligatorio*';
+      return FFLocalizations.of(context).getText(
+        't4zhprjw' /* Este campo es obligatorio* */,
+      );
     }
 
     return null;
@@ -61,7 +68,9 @@ class AuthPageModel extends FlutterFlowModel<AuthPageWidget> {
     }
 
     if (val.length < 1) {
-      return 'Este campo es obligatorio*';
+      return FFLocalizations.of(context).getText(
+        'f7jna3jl' /* Este campo es obligatorio* */,
+      );
     }
 
     return null;
@@ -76,6 +85,8 @@ class AuthPageModel extends FlutterFlowModel<AuthPageWidget> {
   TextEditingController? passwordTextController;
   late bool passwordVisibility;
   String? Function(BuildContext, String?)? passwordTextControllerValidator;
+  // Stores action output result for [Backend Call - Query Rows] action in Button widget.
+  List<UsuarisRow>? userInfo;
 
   @override
   void initState(BuildContext context) {

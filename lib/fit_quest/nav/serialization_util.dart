@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:from_css_color/from_css_color.dart';
+
+import '/backend/schema/structs/index.dart';
 
 import '/backend/supabase/supabase.dart';
 
@@ -70,6 +71,9 @@ String? serializeParam(
         data = uploadedFileToString(param as FFUploadedFile);
       case ParamType.JSON:
         data = json.encode(param);
+
+      case ParamType.DataStruct:
+        data = param is BaseStruct ? param.serialize() : null;
 
       case ParamType.SupabaseRow:
         return json.encode((param as SupabaseDataRow).data);
@@ -150,14 +154,16 @@ enum ParamType {
   FFUploadedFile,
   JSON,
 
+  DataStruct,
   SupabaseRow,
 }
 
 dynamic deserializeParam<T>(
   String? param,
   ParamType paramType,
-  bool isList,
-) {
+  bool isList, {
+  StructBuilder<T>? structBuilder,
+}) {
   try {
     if (param == null) {
       return null;
@@ -170,7 +176,12 @@ dynamic deserializeParam<T>(
       return paramValues
           .where((p) => p is String)
           .map((p) => p as String)
-          .map((p) => deserializeParam<T>(p, paramType, false))
+          .map((p) => deserializeParam<T>(
+                p,
+                paramType,
+                false,
+                structBuilder: structBuilder,
+              ))
           .where((p) => p != null)
           .map((p) => p! as T)
           .toList();
@@ -207,6 +218,8 @@ dynamic deserializeParam<T>(
         switch (T) {
           case OfertesRow:
             return OfertesRow(data);
+          case AmistatsRow:
+            return AmistatsRow(data);
           case UsuarisRow:
             return UsuarisRow(data);
           case ReptesRow:
@@ -215,11 +228,21 @@ dynamic deserializeParam<T>(
             return OfertesCategoriesRow(data);
           case ValoracionsRow:
             return ValoracionsRow(data);
+          case LocalitzacionsRow:
+            return LocalitzacionsRow(data);
+          case RepteCategoriesRow:
+            return RepteCategoriesRow(data);
+          case QRCodesRow:
+            return QRCodesRow(data);
           case RepteEstatRow:
             return RepteEstatRow(data);
           default:
             return null;
         }
+
+      case ParamType.DataStruct:
+        final data = json.decode(param) as Map<String, dynamic>? ?? {};
+        return structBuilder != null ? structBuilder(data) : null;
 
       default:
         return null;

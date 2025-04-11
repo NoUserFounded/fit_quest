@@ -14,9 +14,6 @@ class OfertesRow extends SupabaseDataRow {
   @override
   SupabaseTable get table => OfertesTable();
 
-  String get id => getField<String>('id')!;
-  set id(String value) => setField<String>('id', value);
-
   String get title => getField<String>('title')!;
   set title(String value) => setField<String>('title', value);
 
@@ -44,6 +41,10 @@ class OfertesRow extends SupabaseDataRow {
   int get idCategoria => getField<int>('id_categoria')!;
   set idCategoria(int value) => setField<int>('id_categoria', value);
 
-  String? get ubicacio => getField<String>('ubicacio');
-  set ubicacio(String? value) => setField<String>('ubicacio', value);
+  String? get idLocalitzacio => getField<String>('id_localitzacio');
+  set idLocalitzacio(String? value) =>
+      setField<String>('id_localitzacio', value);
+
+  int get id => getField<int>('Id')!;
+  set id(int value) => setField<int>('Id', value);
 }

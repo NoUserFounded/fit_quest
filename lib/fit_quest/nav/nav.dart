@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/backend/schema/structs/index.dart';
+
 
 import '/auth/base_auth_user_provider.dart';
 
@@ -89,17 +91,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: SplashScreenWidget.routeName,
           path: SplashScreenWidget.routePath,
-          builder: (context, params) => SplashScreenWidget(),
-        ),
-        FFRoute(
-          name: RepteDetailWidget.routeName,
-          path: RepteDetailWidget.routePath,
           requireAuth: true,
-          builder: (context, params) => RepteDetailWidget(),
+          builder: (context, params) => SplashScreenWidget(),
         ),
         FFRoute(
           name: ProfileWidget.routeName,
           path: ProfileWidget.routePath,
+          requireAuth: true,
           builder: (context, params) => NavBarPage(
             initialPage: '',
             page: ProfileWidget(),
@@ -143,9 +141,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: AllFriendsWidget.routeName,
           path: AllFriendsWidget.routePath,
           requireAuth: true,
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'AllFriends')
-              : AllFriendsWidget(),
+          builder: (context, params) => NavBarPage(
+            initialPage: '',
+            page: AllFriendsWidget(),
+          ),
         ),
         FFRoute(
           name: ReptesListWidget.routeName,
@@ -162,8 +161,44 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: AuthPageWidget.routeName,
           path: AuthPageWidget.routePath,
           builder: (context, params) => AuthPageWidget(),
+        ),
+        FFRoute(
+          name: UserInfoWidget.routeName,
+          path: UserInfoWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => UserInfoWidget(),
+        ),
+        FFRoute(
+          name: OfertaWidget.routeName,
+          path: OfertaWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => NavBarPage(
+            initialPage: '',
+            page: OfertaWidget(
+              ofertId: params.getParam(
+                'ofertId',
+                ParamType.int,
+              ),
+              rating: params.getParam(
+                'rating',
+                ParamType.double,
+              ),
+            ),
+          ),
+        ),
+        FFRoute(
+          name: RepteDetailWidget.routeName,
+          path: RepteDetailWidget.routePath,
+          requireAuth: true,
+          builder: (context, params) => RepteDetailWidget(
+            repteId: params.getParam(
+              'repteId',
+              ParamType.int,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
+      observers: [routeObserver],
     );
 
 extension NavParamExtensions on Map<String, String?> {
@@ -280,6 +315,7 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
+    StructBuilder<T>? structBuilder,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -297,6 +333,7 @@ class FFParameters {
       param,
       type,
       isList,
+      structBuilder: structBuilder,
     );
   }
 }
@@ -345,7 +382,7 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: FlutterFlowTheme.of(context).alternate,
+                  color: fit_questTheme.of(context).alternate,
                   child: Image.asset(
                     'assets/images/DALLE_2025-02-17_09.52.12_-_A_modern_and_dynamic_logo_for_an_app_called_FitQuest._The_design_should_reflect_a_fitness_challenge_theme_with_elements_symbolizing_daily_workout_go.png',
                     fit: BoxFit.contain,

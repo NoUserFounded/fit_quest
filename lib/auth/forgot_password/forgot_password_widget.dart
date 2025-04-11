@@ -1,4 +1,5 @@
 import '/auth/supabase_auth/auth_util.dart';
+import '/components/info_message/info_message_widget.dart';
 import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
 import '/fit_quest/fit_quest_widgets.dart';
@@ -30,8 +31,6 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
 
     _model.emailAddressTextController ??= TextEditingController();
     _model.emailAddressFocusNode ??= FocusNode();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -53,7 +52,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
           width: double.infinity,
           height: double.infinity,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).accent4,
+            color: fit_questTheme.of(context).accent4,
           ),
           alignment: AlignmentDirectional(0.0, 1.0),
           child: Column(
@@ -63,7 +62,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                  color: fit_questTheme.of(context).secondaryBackground,
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 7.0,
@@ -95,7 +94,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             width: 60.0,
                             height: 3.0,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).alternate,
+                              color: fit_questTheme.of(context).alternate,
                               borderRadius: BorderRadius.circular(4.0),
                             ),
                           ),
@@ -105,8 +104,10 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 16.0, 0.0, 0.0),
                         child: Text(
-                          'Recuperación de la cuenta',
-                          style: FlutterFlowTheme.of(context)
+                          FFLocalizations.of(context).getText(
+                            'zjifpw7x' /* Recuperación de la cuenta */,
+                          ),
+                          style: fit_questTheme.of(context)
                               .headlineSmall
                               .override(
                                 fontFamily: 'Outfit',
@@ -118,9 +119,11 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(16.0, 4.0, 0.0, 0.0),
                         child: Text(
-                          'Introduce el correo con el que se ha creado la cuenta para que te mandemos el link para cambiar la constraseña:',
+                          FFLocalizations.of(context).getText(
+                            '2yd4f37p' /* Introduce el correo con el que... */,
+                          ),
                           style:
-                              FlutterFlowTheme.of(context).labelMedium.override(
+                              fit_questTheme.of(context).labelMedium.override(
                                     fontFamily: 'Poppins',
                                     letterSpacing: 0.0,
                                   ),
@@ -136,12 +139,14 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             labelStyle:
-                                FlutterFlowTheme.of(context).bodyLarge.override(
+                                fit_questTheme.of(context).bodyLarge.override(
                                       fontFamily: 'Poppins',
                                       letterSpacing: 0.0,
                                     ),
-                            hintText: 'Introduce el correo electronico...',
-                            hintStyle: FlutterFlowTheme.of(context)
+                            hintText: FFLocalizations.of(context).getText(
+                              '8hfv2df0' /* Introduce el correo electronic... */,
+                            ),
+                            hintStyle: fit_questTheme.of(context)
                                 .labelLarge
                                 .override(
                                   fontFamily: 'Poppins',
@@ -149,109 +154,115 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                 ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).alternate,
+                                color: fit_questTheme.of(context).alternate,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).primary,
+                                color: fit_questTheme.of(context).primary,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
+                                color: fit_questTheme.of(context).error,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
+                                color: fit_questTheme.of(context).error,
                                 width: 2.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             filled: true,
-                            fillColor: FlutterFlowTheme.of(context)
+                            fillColor: fit_questTheme.of(context)
                                 .secondaryBackground,
                             contentPadding: EdgeInsetsDirectional.fromSTEB(
                                 24.0, 24.0, 20.0, 24.0),
                           ),
                           style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
+                              fit_questTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
-                          cursorColor: FlutterFlowTheme.of(context).primary,
+                          cursorColor: fit_questTheme.of(context).primary,
                           validator: _model.emailAddressTextControllerValidator
                               .asValidator(context),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(
-                            16.0, 16.0, 16.0, 44.0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            if (_model
-                                .emailAddressTextController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Email required!',
-                                  ),
-                                ),
-                              );
-                              return;
-                            }
-                            await authManager.resetPassword(
-                              email: _model.emailAddressTextController.text,
-                              context: context,
-                            );
-                            await showDialog(
-                              context: context,
-                              builder: (alertDialogContext) {
-                                return AlertDialog(
-                                  title: Text('Correo Enviado'),
-                                  content: Text(
-                                      'Se ha enviado el correo de recuperacion, debes ir a la bandeja de tu correo y pinchar en el link para cambiar la contraseña'),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.pop(alertDialogContext),
-                                      child: Text('Ok'),
+                      Builder(
+                        builder: (context) => Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 16.0, 16.0, 44.0),
+                          child: FFButtonWidget(
+                            onPressed: () async {
+                              if (_model
+                                  .emailAddressTextController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Email required!',
                                     ),
-                                  ],
+                                  ),
                                 );
-                              },
-                            );
-                            context.safePop();
-                          },
-                          text: 'Enviar correo',
-                          options: FFButtonOptions(
-                            width: double.infinity,
-                            height: 50.0,
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color: FlutterFlowTheme.of(context).primary,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Inter',
-                                  color: Colors.white,
-                                  letterSpacing: 0.0,
-                                ),
-                            elevation: 2.0,
-                            borderSide: BorderSide(
-                              color: Colors.transparent,
-                              width: 1.0,
+                                return;
+                              }
+                              await authManager.resetPassword(
+                                email: _model.emailAddressTextController.text,
+                                context: context,
+                              );
+                              await showDialog(
+                                context: context,
+                                builder: (dialogContext) {
+                                  return Dialog(
+                                    elevation: 0,
+                                    insetPadding: EdgeInsets.zero,
+                                    backgroundColor: Colors.transparent,
+                                    alignment: AlignmentDirectional(0.0, 0.0)
+                                        .resolve(Directionality.of(context)),
+                                    child: InfoMessageWidget(
+                                      title: 'Email enviat',
+                                      description:
+                                          'El correu per canviar la contrasenya ha sigut enviat!',
+                                      isError: false,
+                                    ),
+                                  );
+                                },
+                              );
+
+                              context.safePop();
+                            },
+                            text: FFLocalizations.of(context).getText(
+                              '2a5jbzkm' /* Enviar correo */,
                             ),
-                            borderRadius: BorderRadius.circular(12.0),
+                            options: FFButtonOptions(
+                              width: double.infinity,
+                              height: 50.0,
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 0.0),
+                              color: fit_questTheme.of(context).primary,
+                              textStyle: fit_questTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    fontFamily: 'Inter',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                  ),
+                              elevation: 2.0,
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
                           ),
                         ),
                       ),

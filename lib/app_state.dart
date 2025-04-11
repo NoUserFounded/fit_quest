@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/backend/schema/structs/index.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:csv/csv.dart';
 import 'package:synchronized/synchronized.dart';
@@ -20,10 +21,16 @@ class FFAppState extends ChangeNotifier {
   Future initializePersistedState() async {
     secureStorage = FlutterSecureStorage();
     await _safeInitAsync(() async {
-      _email = await secureStorage.getString('ff_email') ?? _email;
-    });
-    await _safeInitAsync(() async {
-      _password = await secureStorage.getString('ff_password') ?? _password;
+      if (await secureStorage.read(key: 'ff_userInfo') != null) {
+        try {
+          final serializedData =
+              await secureStorage.getString('ff_userInfo') ?? '{}';
+          _userInfo =
+              UserStruct.fromSerializableMap(jsonDecode(serializedData));
+        } catch (e) {
+          print("Can't decode persisted data type. Error: $e.");
+        }
+      }
     });
   }
 
@@ -34,38 +41,107 @@ class FFAppState extends ChangeNotifier {
 
   late FlutterSecureStorage secureStorage;
 
-  String _email = '';
-  String get email => _email;
-  set email(String value) {
-    _email = value;
-    secureStorage.setString('ff_email', value);
+  UserStruct _userInfo = UserStruct();
+  UserStruct get userInfo => _userInfo;
+  set userInfo(UserStruct value) {
+    _userInfo = value;
+    secureStorage.setString('ff_userInfo', value.serialize());
   }
 
-  void deleteEmail() {
-    secureStorage.delete(key: 'ff_email');
+  void deleteUserInfo() {
+    secureStorage.delete(key: 'ff_userInfo');
   }
 
-  String _password = '';
-  String get password => _password;
-  set password(String value) {
-    _password = value;
-    secureStorage.setString('ff_password', value);
+  void updateUserInfoStruct(Function(UserStruct) updateFn) {
+    updateFn(_userInfo);
+    secureStorage.setString('ff_userInfo', _userInfo.serialize());
   }
 
-  void deletePassword() {
-    secureStorage.delete(key: 'ff_password');
+  List<dynamic> _solicitudEnviades = [];
+  List<dynamic> get solicitudEnviades => _solicitudEnviades;
+  set solicitudEnviades(List<dynamic> value) {
+    _solicitudEnviades = value;
   }
 
-  bool _fullList = true;
-  bool get fullList => _fullList;
-  set fullList(bool value) {
-    _fullList = value;
+  void addToSolicitudEnviades(dynamic value) {
+    solicitudEnviades.add(value);
   }
 
-  bool _isBuyer = true;
-  bool get isBuyer => _isBuyer;
-  set isBuyer(bool value) {
-    _isBuyer = value;
+  void removeFromSolicitudEnviades(dynamic value) {
+    solicitudEnviades.remove(value);
+  }
+
+  void removeAtIndexFromSolicitudEnviades(int index) {
+    solicitudEnviades.removeAt(index);
+  }
+
+  void updateSolicitudEnviadesAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    solicitudEnviades[index] = updateFn(_solicitudEnviades[index]);
+  }
+
+  void insertAtIndexInSolicitudEnviades(int index, dynamic value) {
+    solicitudEnviades.insert(index, value);
+  }
+
+  List<dynamic> _solicitudsRebudes = [];
+  List<dynamic> get solicitudsRebudes => _solicitudsRebudes;
+  set solicitudsRebudes(List<dynamic> value) {
+    _solicitudsRebudes = value;
+  }
+
+  void addToSolicitudsRebudes(dynamic value) {
+    solicitudsRebudes.add(value);
+  }
+
+  void removeFromSolicitudsRebudes(dynamic value) {
+    solicitudsRebudes.remove(value);
+  }
+
+  void removeAtIndexFromSolicitudsRebudes(int index) {
+    solicitudsRebudes.removeAt(index);
+  }
+
+  void updateSolicitudsRebudesAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    solicitudsRebudes[index] = updateFn(_solicitudsRebudes[index]);
+  }
+
+  void insertAtIndexInSolicitudsRebudes(int index, dynamic value) {
+    solicitudsRebudes.insert(index, value);
+  }
+
+  List<dynamic> _amistats = [];
+  List<dynamic> get amistats => _amistats;
+  set amistats(List<dynamic> value) {
+    _amistats = value;
+  }
+
+  void addToAmistats(dynamic value) {
+    amistats.add(value);
+  }
+
+  void removeFromAmistats(dynamic value) {
+    amistats.remove(value);
+  }
+
+  void removeAtIndexFromAmistats(int index) {
+    amistats.removeAt(index);
+  }
+
+  void updateAmistatsAtIndex(
+    int index,
+    dynamic Function(dynamic) updateFn,
+  ) {
+    amistats[index] = updateFn(_amistats[index]);
+  }
+
+  void insertAtIndexInAmistats(int index, dynamic value) {
+    amistats.insert(index, value);
   }
 }
 

@@ -14,11 +14,11 @@ class UsuarisRow extends SupabaseDataRow {
   @override
   SupabaseTable get table => UsuarisTable();
 
-  String get nomUsuari => getField<String>('nom_usuari')!;
-  set nomUsuari(String value) => setField<String>('nom_usuari', value);
-
   String get id => getField<String>('id')!;
   set id(String value) => setField<String>('id', value);
+
+  String get nomUsuari => getField<String>('nom_usuari')!;
+  set nomUsuari(String value) => setField<String>('nom_usuari', value);
 
   DateTime? get dataNaixement => getField<DateTime>('data_naixement');
   set dataNaixement(DateTime? value) =>
@@ -27,6 +27,15 @@ class UsuarisRow extends SupabaseDataRow {
   String? get idioma => getField<String>('idioma');
   set idioma(String? value) => setField<String>('idioma', value);
 
-  List<String> get amics => getListField<String>('amics');
-  set amics(List<String>? value) => setListField<String>('amics', value);
+  String? get interesos => getField<String>('interesos');
+  set interesos(String? value) => setField<String>('interesos', value);
+
+  String get email => getField<String>('email')!;
+  set email(String value) => setField<String>('email', value);
+
+  String? get fotoPerfil => getField<String>('foto_perfil');
+  set fotoPerfil(String? value) => setField<String>('foto_perfil', value);
+
+  String? get genere => getField<String>('genere');
+  set genere(String? value) => setField<String>('genere', value);
 }

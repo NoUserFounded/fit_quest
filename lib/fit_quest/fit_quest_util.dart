@@ -28,10 +28,16 @@ export 'package:page_transition/page_transition.dart';
 export 'internationalization.dart' show FFLocalizations;
 export 'nav/nav.dart';
 
+final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
+
 T valueOrDefault<T>(T? value, T defaultValue) =>
     (value is String && value.isEmpty) || value == null ? defaultValue : value;
 
 void _setTimeagoLocales() {
+  timeago.setLocaleMessages('ca', timeago.CaMessages());
+  timeago.setLocaleMessages('ca_short', timeago.CaShortMessages());
+  timeago.setLocaleMessages('es', timeago.EsMessages());
+  timeago.setLocaleMessages('es_short', timeago.EsShortMessages());
   timeago.setLocaleMessages('en', timeago.EnMessages());
   timeago.setLocaleMessages('en_short', timeago.EnShortMessages());
 }

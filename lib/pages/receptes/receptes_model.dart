@@ -2,7 +2,7 @@ import '/fit_quest/fit_quest_util.dart';
 import 'receptes_widget.dart' show ReceptesWidget;
 import 'package:flutter/material.dart';
 
-class ReceptesModel extends FlutterFlowModel<ReceptesWidget> {
+class ReceptesModel extends fit_questModel<ReceptesWidget> {
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for TextField widget.

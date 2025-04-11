@@ -28,8 +28,6 @@ class _ReviewWidgetState extends State<ReviewWidget> {
 
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -48,7 +46,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: fit_questTheme.of(context).primaryBackground,
         body: SafeArea(
           top: true,
           child: Padding(
@@ -67,7 +65,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                   },
                   child: Icon(
                     Icons.arrow_back,
-                    color: FlutterFlowTheme.of(context).primaryText,
+                    color: fit_questTheme.of(context).primaryText,
                     size: 24.0,
                   ),
                 ),
@@ -82,9 +80,11 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 35.0, 0.0, 0.0),
                         child: Text(
-                          'Give review to user',
+                          FFLocalizations.of(context).getText(
+                            '1alwccsv' /* Give review to user */,
+                          ),
                           style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
+                              fit_questTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Inter',
                                     fontSize: 16.0,
                                     letterSpacing: 0.0,
@@ -95,9 +95,11 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 25.0, 0.0, 0.0),
                         child: Text(
-                          'Tell us about your Experience with Seller.',
+                          FFLocalizations.of(context).getText(
+                            'lv2su245' /* Tell us about your Experience ... */,
+                          ),
                           style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
+                              fit_questTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Inter',
                                     fontSize: 14.0,
                                     letterSpacing: 0.0,
@@ -113,15 +115,17 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                           autofocus: true,
                           obscureText: false,
                           decoration: InputDecoration(
-                            hintText: 'Share your Experience...',
+                            hintText: FFLocalizations.of(context).getText(
+                              'dobdskxz' /* Share your Experience... */,
+                            ),
                             hintStyle:
-                                FlutterFlowTheme.of(context).bodySmall.override(
+                                fit_questTheme.of(context).bodySmall.override(
                                       fontFamily: 'Inter',
                                       letterSpacing: 0.0,
                                     ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).primaryText,
+                                color: fit_questTheme.of(context).primaryText,
                                 width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(20.0),
@@ -149,7 +153,7 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                             ),
                           ),
                           style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
+                              fit_questTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
@@ -163,9 +167,11 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
                         child: Text(
-                          'Give Rating to Seller',
+                          FFLocalizations.of(context).getText(
+                            'u7dwiulu' /* Give Rating to Seller */,
+                          ),
                           style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
+                              fit_questTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
@@ -179,14 +185,14 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                               () => _model.ratingBarValue = newValue),
                           itemBuilder: (context, index) => Icon(
                             Icons.star_rounded,
-                            color: FlutterFlowTheme.of(context).secondary,
+                            color: fit_questTheme.of(context).secondary,
                           ),
                           direction: Axis.horizontal,
                           initialRating: _model.ratingBarValue ??= 3.0,
                           unratedColor: Color(0xFF9E9E9E),
                           itemCount: 5,
                           itemSize: 24.0,
-                          glowColor: FlutterFlowTheme.of(context).secondary,
+                          glowColor: fit_questTheme.of(context).secondary,
                         ),
                       ),
                       Align(
@@ -198,7 +204,9 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                             onPressed: () {
                               print('Button pressed ...');
                             },
-                            text: 'Send',
+                            text: FFLocalizations.of(context).getText(
+                              '3qyivw9r' /* Send */,
+                            ),
                             options: FFButtonOptions(
                               width: 130.0,
                               height: 40.0,
@@ -206,8 +214,8 @@ class _ReviewWidgetState extends State<ReviewWidget> {
                                   0.0, 0.0, 0.0, 0.0),
                               iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context).customColor1,
-                              textStyle: FlutterFlowTheme.of(context)
+                              color: fit_questTheme.of(context).customColor1,
+                              textStyle: fit_questTheme.of(context)
                                   .titleSmall
                                   .override(
                                     fontFamily: 'Inter',

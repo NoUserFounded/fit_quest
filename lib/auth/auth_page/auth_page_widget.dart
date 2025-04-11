@@ -1,6 +1,7 @@
 import '/auth/forgot_password/forgot_password_widget.dart';
 import '/auth/supabase_auth/auth_util.dart';
-import '/components/confirm_message/confirm_message_widget.dart';
+import '/backend/supabase/supabase.dart';
+import '/components/info_message/info_message_widget.dart';
 import '/fit_quest/fit_quest_animations.dart';
 import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
@@ -124,8 +125,6 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
         ],
       ),
     });
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -155,7 +154,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                   width: double.infinity,
                   height: 230.0,
                   decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).primary,
+                    color: fit_questTheme.of(context).primary,
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   alignment: AlignmentDirectional(0.0, 0.0),
@@ -225,7 +224,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                       labelPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               32.0, 0.0, 32.0, 0.0),
-                                      labelStyle: FlutterFlowTheme.of(context)
+                                      labelStyle: fit_questTheme.of(context)
                                           .titleMedium
                                           .override(
                                             fontFamily: 'Plus Jakarta Sans',
@@ -235,7 +234,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                             fontWeight: FontWeight.w500,
                                           ),
                                       unselectedLabelStyle:
-                                          FlutterFlowTheme.of(context)
+                                          fit_questTheme.of(context)
                                               .titleMedium
                                               .override(
                                                 fontFamily: 'Plus Jakarta Sans',
@@ -248,10 +247,16 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                       indicatorWeight: 3.0,
                                       tabs: [
                                         Tab(
-                                          text: 'Crear Cuenta',
+                                          text: FFLocalizations.of(context)
+                                              .getText(
+                                            'c42bqrka' /* Crear Cuenta */,
+                                          ),
                                         ),
                                         Tab(
-                                          text: 'Iniciar Sesión',
+                                          text: FFLocalizations.of(context)
+                                              .getText(
+                                            'u1c1yb9c' /* Iniciar Sesión */,
+                                          ),
                                         ),
                                       ],
                                       controller: _model.tabBarController,
@@ -271,513 +276,523 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     24.0, 16.0, 24.0, 0.0),
-                                            child: SingleChildScrollView(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  if (responsiveVisibility(
-                                                    context: context,
-                                                    phone: false,
-                                                    tablet: false,
-                                                  ))
-                                                    Container(
-                                                      width: 230.0,
-                                                      height: 40.0,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                      ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                if (responsiveVisibility(
+                                                  context: context,
+                                                  phone: false,
+                                                  tablet: false,
+                                                ))
+                                                  Container(
+                                                    width: 230.0,
+                                                    height: 40.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
                                                     ),
-                                                  Text(
-                                                    'Creación de cuentas',
+                                                  ),
+                                                Text(
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'y2ty5hbk' /* Creación de cuentas */,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                  style: fit_questTheme.of(
+                                                          context)
+                                                      .headlineMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Plus Jakarta Sans',
+                                                        color:
+                                                            fit_questTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        fontSize: 24.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 4.0, 0.0, 24.0),
+                                                  child: Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'paq8j8no' /* A continuación debes rellenar ... */,
+                                                    ),
                                                     textAlign: TextAlign.start,
-                                                    style: FlutterFlowTheme.of(
+                                                    style: fit_questTheme.of(
                                                             context)
-                                                        .headlineMedium
+                                                        .labelMedium
                                                         .override(
                                                           fontFamily:
                                                               'Plus Jakarta Sans',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          fontSize: 24.0,
+                                                          color:
+                                                              Color(0xFF57636C),
+                                                          fontSize: 14.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 4.0,
-                                                                0.0, 24.0),
-                                                    child: Text(
-                                                      'A continuación debes rellenar  la información para crear una cuenta nueva.',
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .labelMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Plus Jakarta Sans',
-                                                            color: Color(
-                                                                0xFF57636C),
-                                                            fontSize: 14.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                  Form(
-                                                    key: _model.formKey,
-                                                    autovalidateMode:
-                                                        AutovalidateMode
-                                                            .disabled,
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      16.0),
-                                                          child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            child:
-                                                                TextFormField(
-                                                              controller: _model
-                                                                  .emailAddressCreateTextController,
-                                                              focusNode: _model
-                                                                  .emailAddressCreateFocusNode,
-                                                              autofocus: true,
-                                                              autofillHints: [
-                                                                AutofillHints
-                                                                    .email
-                                                              ],
-                                                              obscureText:
-                                                                  false,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                labelText:
-                                                                    'Email',
-                                                                labelStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelLarge
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Plus Jakarta Sans',
-                                                                      color: Color(
-                                                                          0xFF57636C),
-                                                                      fontSize:
-                                                                          16.0,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFE0E3E7),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
-                                                                ),
-                                                                focusedBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFF4B39EF),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
-                                                                ),
-                                                                errorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFFF5963),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
-                                                                ),
-                                                                focusedErrorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFFF5963),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
-                                                                ),
-                                                                filled: true,
-                                                                fillColor:
-                                                                    Colors
-                                                                        .white,
-                                                                contentPadding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            24.0),
+                                                ),
+                                                Form(
+                                                  key: _model.formKey,
+                                                  autovalidateMode:
+                                                      AutovalidateMode.disabled,
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    16.0),
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: TextFormField(
+                                                            controller: _model
+                                                                .emailAddressCreateTextController,
+                                                            focusNode: _model
+                                                                .emailAddressCreateFocusNode,
+                                                            autofocus: true,
+                                                            autofillHints: [
+                                                              AutofillHints
+                                                                  .email
+                                                            ],
+                                                            obscureText: false,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelText:
+                                                                  FFLocalizations.of(
+                                                                          context)
+                                                                      .getText(
+                                                                'd5jjdwop' /* Email */,
                                                               ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyLarge
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Plus Jakarta Sans',
-                                                                    color: Color(
-                                                                        0xFF101213),
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                              keyboardType:
-                                                                  TextInputType
-                                                                      .emailAddress,
-                                                              validator: _model
-                                                                  .emailAddressCreateTextControllerValidator
-                                                                  .asValidator(
-                                                                      context),
+                                                              labelStyle:
+                                                                  fit_questTheme.of(
+                                                                          context)
+                                                                      .labelLarge
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Plus Jakarta Sans',
+                                                                        color: Color(
+                                                                            0xFF57636C),
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                              enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFE0E3E7),
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              focusedBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFF4B39EF),
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              errorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFFF5963),
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              focusedErrorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFFF5963),
+                                                                  width: 2.0,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              filled: true,
+                                                              fillColor:
+                                                                  Colors.white,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          24.0),
                                                             ),
+                                                            style: fit_questTheme
+                                                                    .of(context)
+                                                                .bodyLarge
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: Color(
+                                                                      0xFF101213),
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
+                                                            validator: _model
+                                                                .emailAddressCreateTextControllerValidator
+                                                                .asValidator(
+                                                                    context),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      16.0),
-                                                          child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            child:
-                                                                TextFormField(
-                                                              controller: _model
-                                                                  .confirmPasswordCreateTextController,
-                                                              focusNode: _model
-                                                                  .confirmPasswordCreateFocusNode,
-                                                              autofocus: true,
-                                                              autofillHints: [
-                                                                AutofillHints
-                                                                    .password
-                                                              ],
-                                                              obscureText: !_model
-                                                                  .confirmPasswordCreateVisibility,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                labelText:
-                                                                    'Confirma la contraseña',
-                                                                labelStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelLarge
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Plus Jakarta Sans',
-                                                                      color: Color(
-                                                                          0xFF57636C),
-                                                                      fontSize:
-                                                                          16.0,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFE0E3E7),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    16.0),
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: TextFormField(
+                                                            controller: _model
+                                                                .confirmPasswordCreateTextController,
+                                                            focusNode: _model
+                                                                .confirmPasswordCreateFocusNode,
+                                                            autofocus: true,
+                                                            autofillHints: [
+                                                              AutofillHints
+                                                                  .password
+                                                            ],
+                                                            obscureText: !_model
+                                                                .confirmPasswordCreateVisibility,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelText:
+                                                                  FFLocalizations.of(
+                                                                          context)
+                                                                      .getText(
+                                                                'r2bazq6j' /* Confirma la contraseña */,
+                                                              ),
+                                                              labelStyle:
+                                                                  fit_questTheme.of(
+                                                                          context)
+                                                                      .labelLarge
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Plus Jakarta Sans',
+                                                                        color: Color(
+                                                                            0xFF57636C),
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                              enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFE0E3E7),
+                                                                  width: 2.0,
                                                                 ),
-                                                                focusedBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFF4B39EF),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              focusedBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFF4B39EF),
+                                                                  width: 2.0,
                                                                 ),
-                                                                errorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFFF5963),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              errorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFFF5963),
+                                                                  width: 2.0,
                                                                 ),
-                                                                focusedErrorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFFF5963),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              focusedErrorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFFF5963),
+                                                                  width: 2.0,
                                                                 ),
-                                                                filled: true,
-                                                                fillColor:
-                                                                    Colors
-                                                                        .white,
-                                                                contentPadding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            24.0),
-                                                                suffixIcon:
-                                                                    InkWell(
-                                                                  onTap: () =>
-                                                                      safeSetState(
-                                                                    () => _model
-                                                                            .confirmPasswordCreateVisibility =
-                                                                        !_model
-                                                                            .confirmPasswordCreateVisibility,
-                                                                  ),
-                                                                  focusNode: FocusNode(
-                                                                      skipTraversal:
-                                                                          true),
-                                                                  child: Icon(
-                                                                    _model.confirmPasswordCreateVisibility
-                                                                        ? Icons
-                                                                            .visibility_outlined
-                                                                        : Icons
-                                                                            .visibility_off_outlined,
-                                                                    color: Color(
-                                                                        0xFF57636C),
-                                                                    size: 24.0,
-                                                                  ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              filled: true,
+                                                              fillColor:
+                                                                  Colors.white,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          24.0),
+                                                              suffixIcon:
+                                                                  InkWell(
+                                                                onTap: () =>
+                                                                    safeSetState(
+                                                                  () => _model
+                                                                          .confirmPasswordCreateVisibility =
+                                                                      !_model
+                                                                          .confirmPasswordCreateVisibility,
+                                                                ),
+                                                                focusNode: FocusNode(
+                                                                    skipTraversal:
+                                                                        true),
+                                                                child: Icon(
+                                                                  _model.confirmPasswordCreateVisibility
+                                                                      ? Icons
+                                                                          .visibility_outlined
+                                                                      : Icons
+                                                                          .visibility_off_outlined,
+                                                                  color: Color(
+                                                                      0xFF57636C),
+                                                                  size: 24.0,
                                                                 ),
                                                               ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyLarge
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Plus Jakarta Sans',
-                                                                    color: Color(
-                                                                        0xFF101213),
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                              validator: _model
-                                                                  .confirmPasswordCreateTextControllerValidator
-                                                                  .asValidator(
-                                                                      context),
                                                             ),
+                                                            style: fit_questTheme
+                                                                    .of(context)
+                                                                .bodyLarge
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: Color(
+                                                                      0xFF101213),
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                            validator: _model
+                                                                .confirmPasswordCreateTextControllerValidator
+                                                                .asValidator(
+                                                                    context),
                                                           ),
                                                         ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      16.0),
-                                                          child: Container(
-                                                            width:
-                                                                double.infinity,
-                                                            child:
-                                                                TextFormField(
-                                                              controller: _model
-                                                                  .passwordCreateTextController,
-                                                              focusNode: _model
-                                                                  .passwordCreateFocusNode,
-                                                              autofocus: true,
-                                                              autofillHints: [
-                                                                AutofillHints
-                                                                    .password
-                                                              ],
-                                                              obscureText: !_model
-                                                                  .passwordCreateVisibility,
-                                                              decoration:
-                                                                  InputDecoration(
-                                                                labelText:
-                                                                    'Contraseña',
-                                                                labelStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .labelLarge
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Plus Jakarta Sans',
-                                                                      color: Color(
-                                                                          0xFF57636C),
-                                                                      fontSize:
-                                                                          16.0,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                    ),
-                                                                enabledBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFE0E3E7),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    16.0),
+                                                        child: Container(
+                                                          width:
+                                                              double.infinity,
+                                                          child: TextFormField(
+                                                            controller: _model
+                                                                .passwordCreateTextController,
+                                                            focusNode: _model
+                                                                .passwordCreateFocusNode,
+                                                            autofocus: true,
+                                                            autofillHints: [
+                                                              AutofillHints
+                                                                  .password
+                                                            ],
+                                                            obscureText: !_model
+                                                                .passwordCreateVisibility,
+                                                            decoration:
+                                                                InputDecoration(
+                                                              labelText:
+                                                                  FFLocalizations.of(
+                                                                          context)
+                                                                      .getText(
+                                                                '245ev9mc' /* Contraseña */,
+                                                              ),
+                                                              labelStyle:
+                                                                  fit_questTheme.of(
+                                                                          context)
+                                                                      .labelLarge
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Plus Jakarta Sans',
+                                                                        color: Color(
+                                                                            0xFF57636C),
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                              enabledBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFE0E3E7),
+                                                                  width: 2.0,
                                                                 ),
-                                                                focusedBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFF4B39EF),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              focusedBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFF4B39EF),
+                                                                  width: 2.0,
                                                                 ),
-                                                                errorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFFF5963),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              errorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFFF5963),
+                                                                  width: 2.0,
                                                                 ),
-                                                                focusedErrorBorder:
-                                                                    OutlineInputBorder(
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFFF5963),
-                                                                    width: 2.0,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              40.0),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              focusedErrorBorder:
+                                                                  OutlineInputBorder(
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: Color(
+                                                                      0xFFFF5963),
+                                                                  width: 2.0,
                                                                 ),
-                                                                filled: true,
-                                                                fillColor:
-                                                                    Colors
-                                                                        .white,
-                                                                contentPadding:
-                                                                    EdgeInsets
-                                                                        .all(
-                                                                            24.0),
-                                                                suffixIcon:
-                                                                    InkWell(
-                                                                  onTap: () =>
-                                                                      safeSetState(
-                                                                    () => _model
-                                                                            .passwordCreateVisibility =
-                                                                        !_model
-                                                                            .passwordCreateVisibility,
-                                                                  ),
-                                                                  focusNode: FocusNode(
-                                                                      skipTraversal:
-                                                                          true),
-                                                                  child: Icon(
-                                                                    _model.passwordCreateVisibility
-                                                                        ? Icons
-                                                                            .visibility_outlined
-                                                                        : Icons
-                                                                            .visibility_off_outlined,
-                                                                    color: Color(
-                                                                        0xFF57636C),
-                                                                    size: 24.0,
-                                                                  ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            40.0),
+                                                              ),
+                                                              filled: true,
+                                                              fillColor:
+                                                                  Colors.white,
+                                                              contentPadding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          24.0),
+                                                              suffixIcon:
+                                                                  InkWell(
+                                                                onTap: () =>
+                                                                    safeSetState(
+                                                                  () => _model
+                                                                          .passwordCreateVisibility =
+                                                                      !_model
+                                                                          .passwordCreateVisibility,
+                                                                ),
+                                                                focusNode: FocusNode(
+                                                                    skipTraversal:
+                                                                        true),
+                                                                child: Icon(
+                                                                  _model.passwordCreateVisibility
+                                                                      ? Icons
+                                                                          .visibility_outlined
+                                                                      : Icons
+                                                                          .visibility_off_outlined,
+                                                                  color: Color(
+                                                                      0xFF57636C),
+                                                                  size: 24.0,
                                                                 ),
                                                               ),
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyLarge
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Plus Jakarta Sans',
-                                                                    color: Color(
-                                                                        0xFF101213),
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                              validator: _model
-                                                                  .passwordCreateTextControllerValidator
-                                                                  .asValidator(
-                                                                      context),
                                                             ),
+                                                            style: fit_questTheme
+                                                                    .of(context)
+                                                                .bodyLarge
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: Color(
+                                                                      0xFF101213),
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                            validator: _model
+                                                                .passwordCreateTextControllerValidator
+                                                                .asValidator(
+                                                                    context),
                                                           ),
                                                         ),
-                                                        Align(
-                                                          alignment:
-                                                              AlignmentDirectional(
-                                                                  0.0, 0.0),
-                                                          child: Padding(
+                                                      ),
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Builder(
+                                                          builder: (context) =>
+                                                              Padding(
                                                             padding:
                                                                 EdgeInsetsDirectional
                                                                     .fromSTEB(
@@ -842,34 +857,29 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                     return;
                                                                   }
 
-                                                                  await showModalBottomSheet(
-                                                                    isScrollControlled:
-                                                                        true,
-                                                                    backgroundColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    enableDrag:
-                                                                        false,
+                                                                  await showDialog(
                                                                     context:
                                                                         context,
                                                                     builder:
-                                                                        (context) {
-                                                                      return GestureDetector(
-                                                                        onTap:
-                                                                            () {
-                                                                          FocusScope.of(context)
-                                                                              .unfocus();
-                                                                          FocusManager
-                                                                              .instance
-                                                                              .primaryFocus
-                                                                              ?.unfocus();
-                                                                        },
+                                                                        (dialogContext) {
+                                                                      return Dialog(
+                                                                        elevation:
+                                                                            0,
+                                                                        insetPadding:
+                                                                            EdgeInsets.zero,
+                                                                        backgroundColor:
+                                                                            Colors.transparent,
+                                                                        alignment:
+                                                                            AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
                                                                         child:
-                                                                            Padding(
-                                                                          padding:
-                                                                              MediaQuery.viewInsetsOf(context),
+                                                                            GestureDetector(
+                                                                          onTap:
+                                                                              () {
+                                                                            FocusScope.of(dialogContext).unfocus();
+                                                                            FocusManager.instance.primaryFocus?.unfocus();
+                                                                          },
                                                                           child:
-                                                                              ConfirmMessageWidget(
+                                                                              InfoMessageWidget(
                                                                             title:
                                                                                 'Cuenta creada correctamente',
                                                                             description:
@@ -878,9 +888,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                         ),
                                                                       );
                                                                     },
-                                                                  ).then((value) =>
-                                                                      safeSetState(
-                                                                          () {}));
+                                                                  );
 
                                                                   safeSetState(
                                                                       () {
@@ -918,28 +926,45 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                     context:
                                                                         context,
                                                                     builder:
-                                                                        (alertDialogContext) {
-                                                                      return AlertDialog(
-                                                                        title: Text(
-                                                                            'Contraseñas no coinciden'),
-                                                                        content:
-                                                                            Text('Las contraseña deben coincidir'),
-                                                                        actions: [
-                                                                          TextButton(
-                                                                            onPressed: () =>
-                                                                                Navigator.pop(alertDialogContext),
-                                                                            child:
-                                                                                Text('Ok'),
+                                                                        (dialogContext) {
+                                                                      return Dialog(
+                                                                        elevation:
+                                                                            0,
+                                                                        insetPadding:
+                                                                            EdgeInsets.zero,
+                                                                        backgroundColor:
+                                                                            Colors.transparent,
+                                                                        alignment:
+                                                                            AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
+                                                                        child:
+                                                                            GestureDetector(
+                                                                          onTap:
+                                                                              () {
+                                                                            FocusScope.of(dialogContext).unfocus();
+                                                                            FocusManager.instance.primaryFocus?.unfocus();
+                                                                          },
+                                                                          child:
+                                                                              InfoMessageWidget(
+                                                                            title:
+                                                                                'Contrasenyes no coicideixen',
+                                                                            description:
+                                                                                'Les contrasenyes no coicideixen, han de ser iguals',
+                                                                            isError:
+                                                                                true,
                                                                           ),
-                                                                        ],
+                                                                        ),
                                                                       );
                                                                     },
                                                                   );
+
                                                                   return;
                                                                 }
                                                               },
-                                                              text:
-                                                                  'Crear cuenta',
+                                                              text: FFLocalizations
+                                                                      .of(context)
+                                                                  .getText(
+                                                                'mdijg7vx' /* Crear cuenta */,
+                                                              ),
                                                               options:
                                                                   FFButtonOptions(
                                                                 width: 230.0,
@@ -960,7 +985,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                             0.0),
                                                                 color: Color(
                                                                     0xFF17A56F),
-                                                                textStyle: FlutterFlowTheme.of(
+                                                                textStyle: fit_questTheme.of(
                                                                         context)
                                                                     .titleSmall
                                                                     .override(
@@ -991,164 +1016,167 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                             ),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      16.0,
-                                                                      0.0,
-                                                                      16.0,
-                                                                      24.0),
-                                                          child: Text(
-                                                            'O contectate con',
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .labelMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Plus Jakarta Sans',
-                                                                  color: Color(
-                                                                      0xFF57636C),
-                                                                  fontSize:
-                                                                      14.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      16.0),
-                                                          child: Wrap(
-                                                            spacing: 16.0,
-                                                            runSpacing: 0.0,
-                                                            alignment:
-                                                                WrapAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                WrapCrossAlignment
-                                                                    .center,
-                                                            direction:
-                                                                Axis.horizontal,
-                                                            runAlignment:
-                                                                WrapAlignment
-                                                                    .center,
-                                                            verticalDirection:
-                                                                VerticalDirection
-                                                                    .down,
-                                                            clipBehavior:
-                                                                Clip.none,
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            16.0),
-                                                                child:
-                                                                    FFButtonWidget(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    context.pushNamed(
-                                                                        RepteDetailWidget
-                                                                            .routeName);
-                                                                  },
-                                                                  text:
-                                                                      'Continuar con Google',
-                                                                  icon: FaIcon(
-                                                                    FontAwesomeIcons
-                                                                        .google,
-                                                                    size: 20.0,
-                                                                  ),
-                                                                  options:
-                                                                      FFButtonOptions(
-                                                                    width:
-                                                                        230.0,
-                                                                    height:
-                                                                        44.0,
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    iconPadding:
-                                                                        EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                    color: Colors
-                                                                        .white,
-                                                                    textStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Plus Jakarta Sans',
-                                                                          color:
-                                                                              Color(0xFF101213),
-                                                                          fontSize:
-                                                                              14.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                        ),
-                                                                    elevation:
-                                                                        0.0,
-                                                                    borderSide:
-                                                                        BorderSide(
-                                                                      color: Color(
-                                                                          0xFFE0E3E7),
-                                                                      width:
-                                                                          2.0,
-                                                                    ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            40.0),
-                                                                    hoverColor:
-                                                                        Color(
-                                                                            0xFFF1F4F8),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
                                                       ),
                                                     ],
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    0.0,
+                                                                    16.0,
+                                                                    24.0),
+                                                        child: Text(
+                                                          FFLocalizations.of(
+                                                                  context)
+                                                              .getText(
+                                                            'dn1f5yab' /* O contectate con */,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: fit_questTheme
+                                                                  .of(context)
+                                                              .labelMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Plus Jakarta Sans',
+                                                                color: Color(
+                                                                    0xFF57636C),
+                                                                fontSize: 14.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    16.0),
+                                                        child: Wrap(
+                                                          spacing: 16.0,
+                                                          runSpacing: 0.0,
+                                                          alignment:
+                                                              WrapAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              WrapCrossAlignment
+                                                                  .center,
+                                                          direction:
+                                                              Axis.horizontal,
+                                                          runAlignment:
+                                                              WrapAlignment
+                                                                  .center,
+                                                          verticalDirection:
+                                                              VerticalDirection
+                                                                  .down,
+                                                          clipBehavior:
+                                                              Clip.none,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          16.0),
+                                                              child:
+                                                                  FFButtonWidget(
+                                                                onPressed:
+                                                                    () async {
+                                                                  context.pushNamed(
+                                                                      ReptesListWidget
+                                                                          .routeName);
+                                                                },
+                                                                text: FFLocalizations.of(
+                                                                        context)
+                                                                    .getText(
+                                                                  'unzai3r1' /* Continuar con Google */,
+                                                                ),
+                                                                icon: FaIcon(
+                                                                  FontAwesomeIcons
+                                                                      .google,
+                                                                  size: 20.0,
+                                                                ),
+                                                                options:
+                                                                    FFButtonOptions(
+                                                                  width: 230.0,
+                                                                  height: 44.0,
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                  iconPadding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                  color: Colors
+                                                                      .white,
+                                                                  textStyle: fit_questTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Plus Jakarta Sans',
+                                                                        color: Color(
+                                                                            0xFF101213),
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                      ),
+                                                                  elevation:
+                                                                      0.0,
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: Color(
+                                                                        0xFFE0E3E7),
+                                                                    width: 2.0,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              40.0),
+                                                                  hoverColor: Color(
+                                                                      0xFFF1F4F8),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
                                             ).animateOnPageLoad(animationsMap[
                                                 'columnOnPageLoadAnimation1']!),
                                           ),
@@ -1160,342 +1188,347 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                             padding:
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     24.0, 16.0, 24.0, 0.0),
-                                            child: SingleChildScrollView(
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  if (responsiveVisibility(
-                                                    context: context,
-                                                    phone: false,
-                                                    tablet: false,
-                                                  ))
-                                                    Container(
-                                                      width: 230.0,
-                                                      height: 40.0,
-                                                      decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                      ),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                if (responsiveVisibility(
+                                                  context: context,
+                                                  phone: false,
+                                                  tablet: false,
+                                                ))
+                                                  Container(
+                                                    width: 230.0,
+                                                    height: 40.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.white,
                                                     ),
-                                                  Text(
-                                                    '¡Bienvenido de nuevo!',
+                                                  ),
+                                                Text(
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'lrz2txwh' /* ¡Bienvenido de nuevo! */,
+                                                  ),
+                                                  textAlign: TextAlign.start,
+                                                  style: fit_questTheme.of(
+                                                          context)
+                                                      .headlineMedium
+                                                      .override(
+                                                        fontFamily:
+                                                            'Plus Jakarta Sans',
+                                                        color:
+                                                            fit_questTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        fontSize: 24.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 4.0, 0.0, 24.0),
+                                                  child: Text(
+                                                    FFLocalizations.of(context)
+                                                        .getText(
+                                                      'uoyucgem' /* Rellana la información con los... */,
+                                                    ),
                                                     textAlign: TextAlign.start,
-                                                    style: FlutterFlowTheme.of(
+                                                    style: fit_questTheme.of(
                                                             context)
-                                                        .headlineMedium
+                                                        .labelMedium
                                                         .override(
                                                           fontFamily:
                                                               'Plus Jakarta Sans',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primary,
-                                                          fontSize: 24.0,
+                                                          color:
+                                                              Color(0xFF57636C),
+                                                          fontSize: 14.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 4.0,
-                                                                0.0, 24.0),
-                                                    child: Text(
-                                                      'Rellana la información con los datos de tu cuenta para poder iniciar sesión',
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style: FlutterFlowTheme
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 16.0),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    child: TextFormField(
+                                                      controller: _model
+                                                          .emailAddressTextController,
+                                                      focusNode: _model
+                                                          .emailAddressFocusNode,
+                                                      autofocus: true,
+                                                      autofillHints: [
+                                                        AutofillHints.email
+                                                      ],
+                                                      obscureText: false,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelText:
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                          'v9p9q6ae' /* Email */,
+                                                        ),
+                                                        labelStyle:
+                                                            fit_questTheme.of(
+                                                                    context)
+                                                                .labelLarge
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: Color(
+                                                                      0xFF57636C),
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                        enabledBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFFF1F4F8),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFF4B39EF),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        errorBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFFE0E3E7),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        focusedErrorBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFFE0E3E7),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        filled: true,
+                                                        fillColor: Colors.white,
+                                                        contentPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    24.0,
+                                                                    24.0,
+                                                                    0.0,
+                                                                    24.0),
+                                                      ),
+                                                      style: fit_questTheme
                                                               .of(context)
-                                                          .labelMedium
+                                                          .bodyLarge
                                                           .override(
                                                             fontFamily:
                                                                 'Plus Jakarta Sans',
                                                             color: Color(
-                                                                0xFF57636C),
-                                                            fontSize: 14.0,
+                                                                0xFF101213),
+                                                            fontSize: 16.0,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                           ),
+                                                      keyboardType:
+                                                          TextInputType
+                                                              .emailAddress,
+                                                      validator: _model
+                                                          .emailAddressTextControllerValidator
+                                                          .asValidator(context),
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 16.0),
-                                                    child: Container(
-                                                      width: double.infinity,
-                                                      child: TextFormField(
-                                                        controller: _model
-                                                            .emailAddressTextController,
-                                                        focusNode: _model
-                                                            .emailAddressFocusNode,
-                                                        autofocus: true,
-                                                        autofillHints: [
-                                                          AutofillHints.email
-                                                        ],
-                                                        obscureText: false,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          labelText: 'Email',
-                                                          labelStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelLarge
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Plus Jakarta Sans',
-                                                                    color: Color(
-                                                                        0xFF57636C),
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                          enabledBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFF1F4F8),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFF4B39EF),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          errorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFE0E3E7),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          focusedErrorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFE0E3E7),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          filled: true,
-                                                          fillColor:
-                                                              Colors.white,
-                                                          contentPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      24.0,
-                                                                      24.0,
-                                                                      0.0,
-                                                                      24.0),
+                                                ),
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 0.0, 0.0, 16.0),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    child: TextFormField(
+                                                      controller: _model
+                                                          .passwordTextController,
+                                                      focusNode: _model
+                                                          .passwordFocusNode,
+                                                      autofocus: true,
+                                                      autofillHints: [
+                                                        AutofillHints.password
+                                                      ],
+                                                      obscureText: !_model
+                                                          .passwordVisibility,
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelText:
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                          'wngvb3my' /* Contraseña */,
                                                         ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyLarge
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Plus Jakarta Sans',
-                                                              color: Color(
-                                                                  0xFF101213),
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                        keyboardType:
-                                                            TextInputType
-                                                                .emailAddress,
-                                                        validator: _model
-                                                            .emailAddressTextControllerValidator
-                                                            .asValidator(
-                                                                context),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 16.0),
-                                                    child: Container(
-                                                      width: double.infinity,
-                                                      child: TextFormField(
-                                                        controller: _model
-                                                            .passwordTextController,
-                                                        focusNode: _model
-                                                            .passwordFocusNode,
-                                                        autofocus: true,
-                                                        autofillHints: [
-                                                          AutofillHints.password
-                                                        ],
-                                                        obscureText: !_model
-                                                            .passwordVisibility,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          labelText:
-                                                              'Contraseña',
-                                                          labelStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelLarge
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Plus Jakarta Sans',
-                                                                    color: Color(
-                                                                        0xFF57636C),
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                          enabledBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFE0E3E7),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFF4B39EF),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          errorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFFF5963),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          focusedErrorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: Color(
-                                                                  0xFFFF5963),
-                                                              width: 2.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        40.0),
-                                                          ),
-                                                          filled: true,
-                                                          fillColor:
-                                                              Colors.white,
-                                                          contentPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      24.0,
-                                                                      24.0,
+                                                        labelStyle:
+                                                            fit_questTheme.of(
+                                                                    context)
+                                                                .labelLarge
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: Color(
+                                                                      0xFF57636C),
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
                                                                       0.0,
-                                                                      24.0),
-                                                          suffixIcon: InkWell(
-                                                            onTap: () =>
-                                                                safeSetState(
-                                                              () => _model
-                                                                      .passwordVisibility =
-                                                                  !_model
-                                                                      .passwordVisibility,
-                                                            ),
-                                                            focusNode: FocusNode(
-                                                                skipTraversal:
-                                                                    true),
-                                                            child: Icon(
-                                                              _model.passwordVisibility
-                                                                  ? Icons
-                                                                      .visibility_outlined
-                                                                  : Icons
-                                                                      .visibility_off_outlined,
-                                                              color: Color(
-                                                                  0xFF57636C),
-                                                              size: 24.0,
-                                                            ),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                        enabledBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFFE0E3E7),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        focusedBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFF4B39EF),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        errorBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFFFF5963),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        focusedErrorBorder:
+                                                            OutlineInputBorder(
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: Color(
+                                                                0xFFFF5963),
+                                                            width: 2.0,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      40.0),
+                                                        ),
+                                                        filled: true,
+                                                        fillColor: Colors.white,
+                                                        contentPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    24.0,
+                                                                    24.0,
+                                                                    0.0,
+                                                                    24.0),
+                                                        suffixIcon: InkWell(
+                                                          onTap: () =>
+                                                              safeSetState(
+                                                            () => _model
+                                                                    .passwordVisibility =
+                                                                !_model
+                                                                    .passwordVisibility,
+                                                          ),
+                                                          focusNode: FocusNode(
+                                                              skipTraversal:
+                                                                  true),
+                                                          child: Icon(
+                                                            _model.passwordVisibility
+                                                                ? Icons
+                                                                    .visibility_outlined
+                                                                : Icons
+                                                                    .visibility_off_outlined,
+                                                            color: Color(
+                                                                0xFF57636C),
+                                                            size: 24.0,
                                                           ),
                                                         ),
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyLarge
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Plus Jakarta Sans',
-                                                              color: Color(
-                                                                  0xFF101213),
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                            ),
-                                                        validator: _model
-                                                            .passwordTextControllerValidator
-                                                            .asValidator(
-                                                                context),
                                                       ),
+                                                      style: fit_questTheme
+                                                              .of(context)
+                                                          .bodyLarge
+                                                          .override(
+                                                            fontFamily:
+                                                                'Plus Jakarta Sans',
+                                                            color: Color(
+                                                                0xFF101213),
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                      validator: _model
+                                                          .passwordTextControllerValidator
+                                                          .asValidator(context),
                                                     ),
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Padding(
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          0.0, 0.0),
+                                                  child: Builder(
+                                                    builder: (context) =>
+                                                        Padding(
                                                       padding:
                                                           EdgeInsetsDirectional
                                                               .fromSTEB(
@@ -1505,40 +1538,48 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                   16.0),
                                                       child: FFButtonWidget(
                                                         onPressed: () async {
-                                                          await showModalBottomSheet(
-                                                            isScrollControlled:
-                                                                true,
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            enableDrag: false,
+                                                          await showDialog(
                                                             context: context,
-                                                            builder: (context) {
-                                                              return GestureDetector(
-                                                                onTap: () {
-                                                                  FocusScope.of(
-                                                                          context)
-                                                                      .unfocus();
-                                                                  FocusManager
-                                                                      .instance
-                                                                      .primaryFocus
-                                                                      ?.unfocus();
-                                                                },
-                                                                child: Padding(
-                                                                  padding: MediaQuery
-                                                                      .viewInsetsOf(
-                                                                          context),
+                                                            builder:
+                                                                (dialogContext) {
+                                                              return Dialog(
+                                                                elevation: 0,
+                                                                insetPadding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                alignment: AlignmentDirectional(
+                                                                        0.0,
+                                                                        0.0)
+                                                                    .resolve(
+                                                                        Directionality.of(
+                                                                            context)),
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    FocusScope.of(
+                                                                            dialogContext)
+                                                                        .unfocus();
+                                                                    FocusManager
+                                                                        .instance
+                                                                        .primaryFocus
+                                                                        ?.unfocus();
+                                                                  },
                                                                   child:
                                                                       ForgotPasswordWidget(),
                                                                 ),
                                                               );
                                                             },
-                                                          ).then((value) =>
-                                                              safeSetState(
-                                                                  () {}));
+                                                          );
                                                         },
                                                         text:
-                                                            '¿Has olvidado tu contraseña?',
+                                                            FFLocalizations.of(
+                                                                    context)
+                                                                .getText(
+                                                          '5rw0s0dr' /* ¿Has olvidado tu contraseña? */,
+                                                        ),
                                                         options:
                                                             FFButtonOptions(
                                                           height: 44.0,
@@ -1558,13 +1599,13 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                       0.0),
                                                           color: Colors.white,
                                                           textStyle:
-                                                              FlutterFlowTheme.of(
+                                                              fit_questTheme.of(
                                                                       context)
                                                                   .bodyMedium
                                                                   .override(
                                                                     fontFamily:
                                                                         'Plus Jakarta Sans',
-                                                                    color: FlutterFlowTheme.of(
+                                                                    color: fit_questTheme.of(
                                                                             context)
                                                                         .primary,
                                                                     fontSize:
@@ -1591,38 +1632,51 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                       ),
                                                     ),
                                                   ),
-                                                  Align(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  16.0),
-                                                      child: FFButtonWidget(
-                                                        onPressed: () async {
-                                                          GoRouter.of(context)
-                                                              .prepareAuthEvent();
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          0.0, 0.0),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                0.0, 16.0),
+                                                    child: FFButtonWidget(
+                                                      onPressed: () async {
+                                                        var _shouldSetState =
+                                                            false;
+                                                        GoRouter.of(context)
+                                                            .prepareAuthEvent();
 
-                                                          final user =
-                                                              await authManager
-                                                                  .signInWithEmail(
-                                                            context,
-                                                            _model
-                                                                .emailAddressTextController
-                                                                .text,
-                                                            _model
-                                                                .passwordTextController
-                                                                .text,
-                                                          );
-                                                          if (user == null) {
-                                                            return;
-                                                          }
+                                                        final user =
+                                                            await authManager
+                                                                .signInWithEmail(
+                                                          context,
+                                                          _model
+                                                              .emailAddressTextController
+                                                              .text,
+                                                          _model
+                                                              .passwordTextController
+                                                              .text,
+                                                        );
+                                                        if (user == null) {
+                                                          return;
+                                                        }
 
+                                                        _model.userInfo =
+                                                            await UsuarisTable()
+                                                                .queryRows(
+                                                          queryFn: (q) =>
+                                                              q.eqOrNull(
+                                                            'id',
+                                                            currentUserUid,
+                                                          ),
+                                                        );
+                                                        _shouldSetState = true;
+                                                        if (_model.userInfo!
+                                                                .length >
+                                                            0) {
                                                           context.pushNamedAuth(
                                                             ReptesListWidget
                                                                 .routeName,
@@ -1639,195 +1693,212 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                               ),
                                                             },
                                                           );
-                                                        },
-                                                        text: 'Iniciar sesión',
-                                                        options:
-                                                            FFButtonOptions(
-                                                          width: 230.0,
-                                                          height: 52.0,
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
+
+                                                          if (_shouldSetState)
+                                                            safeSetState(() {});
+                                                          return;
+                                                        } else {
+                                                          context.pushNamedAuth(
+                                                              UserInfoWidget
+                                                                  .routeName,
+                                                              context.mounted);
+
+                                                          if (_shouldSetState)
+                                                            safeSetState(() {});
+                                                          return;
+                                                        }
+
+                                                        if (_shouldSetState)
+                                                          safeSetState(() {});
+                                                      },
+                                                      text: FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        '5uufjrr0' /* Iniciar sesión */,
+                                                      ),
+                                                      options: FFButtonOptions(
+                                                        width: 230.0,
+                                                        height: 52.0,
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        iconPadding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        color:
+                                                            fit_questTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        textStyle:
+                                                            fit_questTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Plus Jakarta Sans',
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
                                                                       0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          iconPadding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          color: FlutterFlowTheme
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                        elevation: 3.0,
+                                                        borderSide: BorderSide(
+                                                          color: Colors
+                                                              .transparent,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(40.0),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          0.0, 0.0),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(16.0, 0.0,
+                                                                16.0, 24.0),
+                                                    child: Text(
+                                                      FFLocalizations.of(
+                                                              context)
+                                                          .getText(
+                                                        'p15dvm5o' /* O contectate con */,
+                                                      ),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: fit_questTheme
+                                                              .of(context)
+                                                          .labelMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Plus Jakarta Sans',
+                                                            color: Color(
+                                                                0xFF57636C),
+                                                            fontSize: 14.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          0.0, 0.0),
+                                                  child: Wrap(
+                                                    spacing: 16.0,
+                                                    runSpacing: 0.0,
+                                                    alignment:
+                                                        WrapAlignment.center,
+                                                    crossAxisAlignment:
+                                                        WrapCrossAlignment
+                                                            .center,
+                                                    direction: Axis.horizontal,
+                                                    runAlignment:
+                                                        WrapAlignment.center,
+                                                    verticalDirection:
+                                                        VerticalDirection.down,
+                                                    clipBehavior: Clip.none,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    16.0),
+                                                        child: FFButtonWidget(
+                                                          onPressed: () async {
+                                                            context.pushNamed(
+                                                                ReptesListWidget
+                                                                    .routeName);
+                                                          },
+                                                          text: FFLocalizations
                                                                   .of(context)
-                                                              .primary,
-                                                          textStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .titleSmall
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Plus Jakarta Sans',
-                                                                    color: Colors
-                                                                        .white,
-                                                                    fontSize:
-                                                                        16.0,
-                                                                    letterSpacing:
+                                                              .getText(
+                                                            'wd96meik' /* Continuar con Google */,
+                                                          ),
+                                                          icon: FaIcon(
+                                                            FontAwesomeIcons
+                                                                .google,
+                                                            size: 20.0,
+                                                          ),
+                                                          options:
+                                                              FFButtonOptions(
+                                                            width: 230.0,
+                                                            height: 44.0,
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
                                                                         0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                          elevation: 3.0,
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: Colors
-                                                                .transparent,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      40.0),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  16.0,
-                                                                  0.0,
-                                                                  16.0,
-                                                                  24.0),
-                                                      child: Text(
-                                                        'O contectate con',
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .labelMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Plus Jakarta Sans',
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            iconPadding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            color: Colors.white,
+                                                            textStyle:
+                                                                fit_questTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Plus Jakarta Sans',
+                                                                      color: Color(
+                                                                          0xFF101213),
+                                                                      fontSize:
+                                                                          14.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                            elevation: 0.0,
+                                                            borderSide:
+                                                                BorderSide(
                                                               color: Color(
-                                                                  0xFF57636C),
-                                                              fontSize: 14.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
+                                                                  0xFFE0E3E7),
+                                                              width: 2.0,
                                                             ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Align(
-                                                    alignment:
-                                                        AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Wrap(
-                                                      spacing: 16.0,
-                                                      runSpacing: 0.0,
-                                                      alignment:
-                                                          WrapAlignment.center,
-                                                      crossAxisAlignment:
-                                                          WrapCrossAlignment
-                                                              .center,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                      runAlignment:
-                                                          WrapAlignment.center,
-                                                      verticalDirection:
-                                                          VerticalDirection
-                                                              .down,
-                                                      clipBehavior: Clip.none,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      16.0),
-                                                          child: FFButtonWidget(
-                                                            onPressed:
-                                                                () async {
-                                                              context.pushNamed(
-                                                                  RepteDetailWidget
-                                                                      .routeName);
-                                                            },
-                                                            text:
-                                                                'Continuar con Google',
-                                                            icon: FaIcon(
-                                                              FontAwesomeIcons
-                                                                  .google,
-                                                              size: 20.0,
-                                                            ),
-                                                            options:
-                                                                FFButtonOptions(
-                                                              width: 230.0,
-                                                              height: 44.0,
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              iconPadding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              color:
-                                                                  Colors.white,
-                                                              textStyle:
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .bodyMedium
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Plus Jakarta Sans',
-                                                                        color: Color(
-                                                                            0xFF101213),
-                                                                        fontSize:
-                                                                            14.0,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                        fontWeight:
-                                                                            FontWeight.bold,
-                                                                      ),
-                                                              elevation: 0.0,
-                                                              borderSide:
-                                                                  BorderSide(
-                                                                color: Color(
-                                                                    0xFFE0E3E7),
-                                                                width: 2.0,
-                                                              ),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          40.0),
-                                                              hoverColor: Color(
-                                                                  0xFFF1F4F8),
-                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        40.0),
+                                                            hoverColor: Color(
+                                                                0xFFF1F4F8),
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ).animateOnPageLoad(animationsMap[
                                                 'columnOnPageLoadAnimation2']!),
                                           ),

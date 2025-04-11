@@ -2,7 +2,7 @@ import '/fit_quest/fit_quest_util.dart';
 import 'review_widget.dart' show ReviewWidget;
 import 'package:flutter/material.dart';
 
-class ReviewModel extends FlutterFlowModel<ReviewWidget> {
+class ReviewModel extends fit_questModel<ReviewWidget> {
   ///  State fields for stateful widgets in this page.
 
   // State field(s) for TextField widget.

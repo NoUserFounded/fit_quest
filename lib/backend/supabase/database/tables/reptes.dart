@@ -28,4 +28,13 @@ class ReptesRow extends SupabaseDataRow {
 
   int? get duracio => getField<int>('duracio');
   set duracio(int? value) => setField<int>('duracio', value);
+
+  int? get categoryId => getField<int>('category_id');
+  set categoryId(int? value) => setField<int>('category_id', value);
+
+  String? get details => getField<String>('details');
+  set details(String? value) => setField<String>('details', value);
+
+  String? get urlVideo => getField<String>('url_video');
+  set urlVideo(String? value) => setField<String>('url_video', value);
 }

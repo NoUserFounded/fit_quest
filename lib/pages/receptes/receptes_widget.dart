@@ -27,8 +27,6 @@ class _ReceptesWidgetState extends State<ReceptesWidget> {
 
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -42,18 +40,18 @@ class _ReceptesWidgetState extends State<ReceptesWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).secondary,
+      backgroundColor: fit_questTheme.of(context).secondary,
       appBar: AppBar(
-        backgroundColor: FlutterFlowTheme.of(context).primary,
+        backgroundColor: fit_questTheme.of(context).primary,
         automaticallyImplyLeading: false,
-        leading: FlutterFlowIconButton(
+        leading: fit_questIconButton(
           borderColor: Colors.transparent,
           borderRadius: 30.0,
           borderWidth: 1.0,
           buttonSize: 60.0,
           icon: Icon(
             Icons.arrow_back_rounded,
-            color: FlutterFlowTheme.of(context).white,
+            color: fit_questTheme.of(context).white,
             size: 30.0,
           ),
           onPressed: () async {
@@ -61,10 +59,12 @@ class _ReceptesWidgetState extends State<ReceptesWidget> {
           },
         ),
         title: Text(
-          'Receptes',
-          style: FlutterFlowTheme.of(context).bodyMedium.override(
+          FFLocalizations.of(context).getText(
+            '42zal9m5' /* Receptes */,
+          ),
+          style: fit_questTheme.of(context).bodyMedium.override(
                 fontFamily: 'Inter',
-                color: FlutterFlowTheme.of(context).secondary,
+                color: fit_questTheme.of(context).secondary,
                 fontSize: 18.0,
                 letterSpacing: 0.0,
                 fontWeight: FontWeight.bold,
@@ -101,15 +101,17 @@ class _ReceptesWidgetState extends State<ReceptesWidget> {
                           obscureText: false,
                           decoration: InputDecoration(
                             isDense: true,
-                            labelStyle: FlutterFlowTheme.of(context)
+                            labelStyle: fit_questTheme.of(context)
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Poppins',
                                   letterSpacing: 0.0,
                                 ),
-                            hintText: 'Pregunta por cualquier cosa',
+                            hintText: FFLocalizations.of(context).getText(
+                              'z1ff5g3p' /* Pregunta por cualquier cosa */,
+                            ),
                             hintStyle:
-                                FlutterFlowTheme.of(context).bodySmall.override(
+                                fit_questTheme.of(context).bodySmall.override(
                                       fontFamily: 'Inter',
                                       color: Color(0x82000000),
                                       letterSpacing: 0.0,
@@ -131,28 +133,28 @@ class _ReceptesWidgetState extends State<ReceptesWidget> {
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
+                                color: fit_questTheme.of(context).error,
                                 width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
+                                color: fit_questTheme.of(context).error,
                                 width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             filled: true,
-                            fillColor: FlutterFlowTheme.of(context)
+                            fillColor: fit_questTheme.of(context)
                                 .secondaryBackground,
                           ),
                           style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
+                              fit_questTheme.of(context).bodyMedium.override(
                                     fontFamily: 'Inter',
                                     letterSpacing: 0.0,
                                   ),
-                          cursorColor: FlutterFlowTheme.of(context).primaryText,
+                          cursorColor: fit_questTheme.of(context).primaryText,
                           validator: _model.textControllerValidator
                               .asValidator(context),
                         ),
@@ -161,13 +163,13 @@ class _ReceptesWidgetState extends State<ReceptesWidget> {
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 15.0),
-                      child: FlutterFlowIconButton(
+                      child: fit_questIconButton(
                         borderRadius: 8.0,
                         buttonSize: 40.0,
-                        fillColor: FlutterFlowTheme.of(context).primary,
+                        fillColor: fit_questTheme.of(context).primary,
                         icon: Icon(
                           Icons.send,
-                          color: FlutterFlowTheme.of(context).secondary,
+                          color: fit_questTheme.of(context).secondary,
                           size: 24.0,
                         ),
                         onPressed: () {

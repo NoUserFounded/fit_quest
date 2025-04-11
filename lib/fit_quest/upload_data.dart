@@ -361,7 +361,7 @@ void showUploadMessage(
                 child: CircularProgressIndicator(
                   valueColor: Theme.of(context).brightness == Brightness.dark
                       ? AlwaysStoppedAnimation<Color>(
-                          FlutterFlowTheme.of(context).accent4)
+                          fit_questTheme.of(context).accent4)
                       : null,
                 ),
               ),

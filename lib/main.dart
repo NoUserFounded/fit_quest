@@ -21,7 +21,7 @@ void main() async {
 
   await SupaFlow.initialize();
 
-  await FlutterFlowTheme.initialize();
+  await fit_questTheme.initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
@@ -44,7 +44,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
 
-  ThemeMode _themeMode = FlutterFlowTheme.themeMode;
+  ThemeMode _themeMode = fit_questTheme.themeMode;
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
@@ -59,7 +59,7 @@ class _MyAppState extends State<MyApp> {
 
   List<String> getRouteStack() =>
       _router.routerDelegate.currentConfiguration.matches
-          .map((e) => getRoute(e))
+          .map((e) => getRoute(e as RouteMatch?))
           .toList();
 
   late Stream<BaseAuthUser> userStream;
@@ -87,7 +87,7 @@ class _MyAppState extends State<MyApp> {
 
   void setThemeMode(ThemeMode mode) => safeSetState(() {
         _themeMode = mode;
-        FlutterFlowTheme.saveThemeMode(mode);
+        fit_questTheme.saveThemeMode(mode);
       });
 
   @override
@@ -105,6 +105,8 @@ class _MyAppState extends State<MyApp> {
       ],
       locale: _locale,
       supportedLocales: const [
+        Locale('ca'),
+        Locale('es'),
         Locale('en'),
       ],
       theme: ThemeData(
@@ -149,7 +151,6 @@ class _NavBarPageState extends State<NavBarPage> {
       'OfertesPage': OfertesPageWidget(),
       'ReptesList': ReptesListWidget(),
       'Receptes': ReceptesWidget(),
-      'AllFriends': AllFriendsWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPageName);
 
@@ -168,9 +169,9 @@ class _NavBarPageState extends State<NavBarPage> {
           _currentPage = null;
           _currentPageName = tabs.keys.toList()[i];
         }),
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: fit_questTheme.of(context).primaryBackground,
         selectedItemColor: Color(0xFF04B974),
-        unselectedItemColor: FlutterFlowTheme.of(context).primaryText,
+        unselectedItemColor: fit_questTheme.of(context).primaryText,
         selectedBackgroundColor: Colors.transparent,
         borderRadius: 8.0,
         itemBorderRadius: 8.0,
@@ -187,16 +188,18 @@ class _NavBarPageState extends State<NavBarPage> {
                   Icons.local_offer_sharp,
                   color: currentIndex == 0
                       ? Color(0xFF04B974)
-                      : FlutterFlowTheme.of(context).primaryText,
+                      : fit_questTheme.of(context).primaryText,
                   size: 24.0,
                 ),
                 Text(
-                  'Ofertes',
+                  FFLocalizations.of(context).getText(
+                    'p4hxrvyk' /* Ofertes */,
+                  ),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 0
                         ? Color(0xFF04B974)
-                        : FlutterFlowTheme.of(context).primaryText,
+                        : fit_questTheme.of(context).primaryText,
                     fontSize: 11.0,
                   ),
                 ),
@@ -211,16 +214,18 @@ class _NavBarPageState extends State<NavBarPage> {
                   Icons.addchart,
                   color: currentIndex == 1
                       ? Color(0xFF04B974)
-                      : FlutterFlowTheme.of(context).primaryText,
+                      : fit_questTheme.of(context).primaryText,
                   size: 24.0,
                 ),
                 Text(
-                  'Reptes',
+                  FFLocalizations.of(context).getText(
+                    'gzquskzv' /* Reptes */,
+                  ),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 1
                         ? Color(0xFF04B974)
-                        : FlutterFlowTheme.of(context).primaryText,
+                        : fit_questTheme.of(context).primaryText,
                     fontSize: 11.0,
                   ),
                 ),
@@ -237,42 +242,18 @@ class _NavBarPageState extends State<NavBarPage> {
                       : Icons.chat_bubble_outline,
                   color: currentIndex == 2
                       ? Color(0xFF04B974)
-                      : FlutterFlowTheme.of(context).primaryText,
+                      : fit_questTheme.of(context).primaryText,
                   size: currentIndex == 2 ? 24.0 : 24.0,
                 ),
                 Text(
-                  'Receptes',
+                  FFLocalizations.of(context).getText(
+                    '5etwfuoj' /* Receptes */,
+                  ),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: currentIndex == 2
                         ? Color(0xFF04B974)
-                        : FlutterFlowTheme.of(context).primaryText,
-                    fontSize: 11.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FloatingNavbarItem(
-            customWidget: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  currentIndex == 3
-                      ? Icons.person_add
-                      : Icons.person_add_outlined,
-                  color: currentIndex == 3
-                      ? Color(0xFF04B974)
-                      : FlutterFlowTheme.of(context).primaryText,
-                  size: currentIndex == 3 ? 24.0 : 24.0,
-                ),
-                Text(
-                  'Social',
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    color: currentIndex == 3
-                        ? Color(0xFF04B974)
-                        : FlutterFlowTheme.of(context).primaryText,
+                        : fit_questTheme.of(context).primaryText,
                     fontSize: 11.0,
                   ),
                 ),

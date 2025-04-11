@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
-Widget wrapWithModel<T extends FlutterFlowModel>({
+Widget wrapWithModel<T extends fit_questModel>({
   required T model,
   required Widget child,
   required VoidCallback updateCallback,
@@ -25,7 +25,7 @@ Widget wrapWithModel<T extends FlutterFlowModel>({
   );
 }
 
-T createModel<T extends FlutterFlowModel>(
+T createModel<T extends fit_questModel>(
   BuildContext context,
   T Function() defaultBuilder,
 ) {
@@ -34,7 +34,7 @@ T createModel<T extends FlutterFlowModel>(
   return model;
 }
 
-abstract class FlutterFlowModel<W extends Widget> {
+abstract class fit_questModel<W extends Widget> {
   // Initialization methods
   bool _isInitialized = false;
   void initState(BuildContext context);
@@ -51,6 +51,9 @@ abstract class FlutterFlowModel<W extends Widget> {
   // parameters of the widget, for example.
   W? _widget;
   W? get widget => _widget;
+  void set widget(W? newWidget) {
+    _widget = newWidget;
+  }
 
   // The context associated with this model.
   BuildContext? _context;
@@ -75,7 +78,7 @@ abstract class FlutterFlowModel<W extends Widget> {
   // Function to call when the model receives an update.
   VoidCallback _updateCallback = () {};
   void onUpdate() => updateOnChange ? _updateCallback() : () {};
-  FlutterFlowModel setOnUpdate({
+  fit_questModel setOnUpdate({
     bool updateOnChange = false,
     required VoidCallback onUpdate,
   }) =>
@@ -89,8 +92,8 @@ abstract class FlutterFlowModel<W extends Widget> {
   }
 }
 
-class FlutterFlowDynamicModels<T extends FlutterFlowModel> {
-  FlutterFlowDynamicModels(this.defaultBuilder);
+class fit_questDynamicModels<T extends fit_questModel> {
+  fit_questDynamicModels(this.defaultBuilder);
 
   final T Function() defaultBuilder;
   final Map<String, T> _childrenModels = {};

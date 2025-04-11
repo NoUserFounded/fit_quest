@@ -1,9 +1,8 @@
 import '/fit_quest/fit_quest_util.dart';
-import '/index.dart';
 import 'repte_detail_widget.dart' show RepteDetailWidget;
 import 'package:flutter/material.dart';
 
-class RepteDetailModel extends FlutterFlowModel<RepteDetailWidget> {
+class RepteDetailModel extends fit_questModel<RepteDetailWidget> {
   @override
   void initState(BuildContext context) {}
 

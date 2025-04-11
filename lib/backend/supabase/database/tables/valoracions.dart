@@ -23,12 +23,12 @@ class ValoracionsRow extends SupabaseDataRow {
   String? get comentari => getField<String>('comentari');
   set comentari(String? value) => setField<String>('comentari', value);
 
-  int? get puntuacio => getField<int>('puntuacio');
-  set puntuacio(int? value) => setField<int>('puntuacio', value);
+  double? get puntuacio => getField<double>('puntuacio');
+  set puntuacio(double? value) => setField<double>('puntuacio', value);
 
   String? get idUser => getField<String>('id_user');
   set idUser(String? value) => setField<String>('id_user', value);
 
-  String? get idOferta => getField<String>('id_oferta');
-  set idOferta(String? value) => setField<String>('id_oferta', value);
+  int get idOferta => getField<int>('id_oferta')!;
+  set idOferta(int value) => setField<int>('id_oferta', value);
 }
