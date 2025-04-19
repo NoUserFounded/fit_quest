@@ -274,13 +274,14 @@ class _LateralBarWidgetState extends State<LateralBarWidget> {
                                 ),
                                 showBadge:
                                     FFAppState().solicitudsRebudes.length > 0,
-                                badgeStyle: badges.BadgeStyle(
-                                  shape: badges.BadgeShape.circle,
-                                  badgeColor: fit_questTheme.of(context).error,
-                                  padding: EdgeInsets.all(8.0),
-                                ),
-                                position: badges.BadgePosition.topEnd(
-                                    top: -10, end: -10),
+                                shape: badges.BadgeShape.circle,
+                                badgeColor: fit_questTheme.of(context).error,
+                                elevation: 0.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    8.0, 8.0, 8.0, 8.0),
+                                position: badges.BadgePosition.topEnd(),
+                                animationType: badges.BadgeAnimationType.scale,
+                                toAnimate: true,
                                 child: Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 15.0, 15.0, 0.0),

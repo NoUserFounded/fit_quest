@@ -236,7 +236,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': '',
     },
     '6fborn5c': {
-      'ca': 'Active',
+      'ca': '',
       'en': '',
       'es': '',
     },
@@ -250,49 +250,28 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': '',
       'es': '',
     },
-    '14yy6icm': {
-      'ca': 'Active',
-      'en': '',
-      'es': '',
-    },
     'j7cs7rkh': {
-      'ca': 'In Active',
+      'ca': 'Pendent',
       'en': '',
       'es': '',
     },
     '9qx9jpei': {
-      'ca': 'Pause',
+      'ca': 'Completat',
       'en': '',
       'es': '',
     },
-    '3gjba6y8': {
-      'ca': 'Rating',
+    '9qw5v7bf': {
+      'ca': 'Fallit',
       'en': '',
       'es': '',
     },
-    '6mzql06i': {
-      'ca': 'Hello World',
+    'kgdingxw': {
+      'ca': '\tEn proces',
       'en': '',
       'es': '',
     },
     'k7t4gx32': {
       'ca': 'Resenyes',
-      'en': '',
-      'es': '',
-    },
-    '2jfrh105': {
-      'ca': 'Abdullah',
-      'en': '',
-      'es': '',
-    },
-    '18jrhhnt': {
-      'ca': '10/9/2023',
-      'en': '',
-      'es': '',
-    },
-    'xjo3ytj2': {
-      'ca':
-          'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum ',
       'en': '',
       'es': '',
     },
@@ -394,39 +373,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     },
     'p4hxrvyk': {
       'ca': 'Ofertes',
-      'en': '',
-      'es': '',
-    },
-  },
-  // review
-  {
-    '1alwccsv': {
-      'ca': 'Give review to user',
-      'en': '',
-      'es': '',
-    },
-    'lv2su245': {
-      'ca': 'Tell us about your Experience with Seller.',
-      'en': '',
-      'es': '',
-    },
-    'dobdskxz': {
-      'ca': 'Share your Experience...',
-      'en': '',
-      'es': '',
-    },
-    'u7dwiulu': {
-      'ca': 'Give Rating to Seller',
-      'en': '',
-      'es': '',
-    },
-    '3qyivw9r': {
-      'ca': 'Send',
-      'en': '',
-      'es': '',
-    },
-    '7m6i0ayw': {
-      'ca': 'Home',
       'en': '',
       'es': '',
     },
@@ -815,7 +761,7 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'es': '',
     },
     'kt5zfew2': {
-      'ca': 'Get Tickets',
+      'ca': 'Completar',
       'en': '',
       'es': '',
     },
@@ -1023,6 +969,34 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'ca': 'Valorar',
       'en': 'Rate',
       'es': 'Valorar',
+    },
+  },
+  // review
+  {
+    'exwr2z96': {
+      'ca': 'Fes una valoració de l\'orferta',
+      'en': '',
+      'es': '',
+    },
+    '9hoq7vy4': {
+      'ca': 'Explican\'s com s\'ha sigut l\'experiencia amb l\'orferta',
+      'en': '',
+      'es': '',
+    },
+    'pf66fd4u': {
+      'ca': 'Explican\'ns la teva experiencia',
+      'en': '',
+      'es': '',
+    },
+    'u526wgbv': {
+      'ca': 'Valoració: *',
+      'en': '',
+      'es': '',
+    },
+    'r1ls28oo': {
+      'ca': 'Enviar',
+      'en': '',
+      'es': '',
     },
   },
   // Miscellaneous

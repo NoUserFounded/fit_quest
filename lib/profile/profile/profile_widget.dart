@@ -7,9 +7,12 @@ import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
 import '/fit_quest/fit_quest_widgets.dart';
 import '/fit_quest/form_field_controller.dart';
+import '/ofertes/review_card/review_card_widget.dart';
+import '/reptes/repte_small_card/repte_small_card_widget.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'profile_model.dart';
 export 'profile_model.dart';
@@ -42,6 +45,7 @@ class _ProfileWidgetState extends State<ProfileWidget>
       length: 3,
       initialIndex: 0,
     )..addListener(() => safeSetState(() {}));
+
     animationsMap.addAll({
       'containerOnActionTriggerAnimation': AnimationInfo(
         trigger: AnimationTrigger.onActionTrigger,
@@ -945,218 +949,125 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                   0.0, 10.0, 0.0, 0.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  fit_questDropDown<String>(
-                                    controller:
-                                        _model.dropDownValueController ??=
-                                            FormFieldController<String>(
-                                      _model.dropDownValue ??=
-                                          FFLocalizations.of(context).getText(
-                                        '6fborn5c' /* Active */,
-                                      ),
-                                    ),
-                                    options: [
-                                      FFLocalizations.of(context).getText(
-                                        '14yy6icm' /* Active */,
-                                      ),
-                                      FFLocalizations.of(context).getText(
-                                        'j7cs7rkh' /* In Active */,
-                                      ),
-                                      FFLocalizations.of(context).getText(
-                                        '9qx9jpei' /* Pause */,
-                                      )
-                                    ],
-                                    onChanged: (val) => safeSetState(
-                                        () => _model.dropDownValue = val),
-                                    width: 134.0,
-                                    height: 36.0,
-                                    textStyle: fit_questTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Inter',
-                                          fontSize: 11.0,
-                                          letterSpacing: 0.0,
-                                        ),
-                                    hintText:
+                                  Align(
+                                    alignment: AlignmentDirectional(1.0, 0.0),
+                                    child: fit_questDropDown<String>(
+                                      controller:
+                                          _model.dropDownValueController ??=
+                                              FormFieldController<String>(null),
+                                      options: [
                                         FFLocalizations.of(context).getText(
-                                      'mxqu8n65' /* Please select... */,
-                                    ),
-                                    icon: Icon(
-                                      Icons.keyboard_arrow_down_rounded,
-                                      color: fit_questTheme.of(context)
-                                          .secondaryText,
-                                      size: 24.0,
-                                    ),
-                                    fillColor: fit_questTheme.of(context)
-                                        .secondaryBackground,
-                                    elevation: 2.0,
-                                    borderColor:
-                                        fit_questTheme.of(context).alternate,
-                                    borderWidth: 2.0,
-                                    borderRadius: 12.0,
-                                    margin: EdgeInsetsDirectional.fromSTEB(
-                                        16.0, 4.0, 16.0, 4.0),
-                                    hidesUnderline: true,
-                                    isSearchable: false,
-                                    isMultiSelect: false,
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 15.0, 0.0, 0.0),
-                                        child: Container(
-                                          width: double.infinity,
-                                          height: 100.0,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                          ),
-                                          child: Card(
-                                            clipBehavior:
-                                                Clip.antiAliasWithSaveLayer,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Expanded(
-                                                  flex: 3,
-                                                  child: ClipRRect(
-                                                    borderRadius:
-                                                        BorderRadius.only(
-                                                      bottomLeft:
-                                                          Radius.circular(10.0),
-                                                      bottomRight:
-                                                          Radius.circular(0.0),
-                                                      topLeft:
-                                                          Radius.circular(10.0),
-                                                      topRight:
-                                                          Radius.circular(0.0),
-                                                    ),
-                                                    child: Image.network(
-                                                      'https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs3/316949134/original/71372795cac32a8c34cfd026d5792717507d530f/do-modern-tech-apps-cryptocurrency-and-nft-logo-design-or-crypto-token.png',
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          1.0,
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .height *
-                                                          0.14,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
-                                                ),
-                                                Expanded(
-                                                  flex: 5,
-                                                  child: Container(
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
-                                                      color: fit_questTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                    ),
-                                                    child: Padding(
-                                                      padding:
-                                                          EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  10.0,
-                                                                  5.0,
-                                                                  8.0,
-                                                                  5.0),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Spacer(),
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [],
-                                                          ),
-                                                          Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        '3gjba6y8' /* Rating */,
-                                                                      ),
-                                                                      style: fit_questTheme.of(
-                                                                              context)
-                                                                          .titleMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Outfit',
-                                                                            fontSize:
-                                                                                12.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.bold,
-                                                                          ),
-                                                                    ),
-                                                                    Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        '6mzql06i' /* Hello World */,
-                                                                      ),
-                                                                      style: fit_questTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
+                                          'j7cs7rkh' /* Pendent */,
                                         ),
+                                        FFLocalizations.of(context).getText(
+                                          '9qx9jpei' /* Completat */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          '9qw5v7bf' /* Fallit */,
+                                        ),
+                                        FFLocalizations.of(context).getText(
+                                          'kgdingxw' /* 	En proces */,
+                                        )
+                                      ],
+                                      onChanged: (val) => safeSetState(
+                                          () => _model.dropDownValue = val),
+                                      width: 134.0,
+                                      height: 36.0,
+                                      textStyle: fit_questTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Inter',
+                                            fontSize: 11.0,
+                                            letterSpacing: 0.0,
+                                          ),
+                                      hintText:
+                                          FFLocalizations.of(context).getText(
+                                        'mxqu8n65' /* Please select... */,
                                       ),
-                                    ],
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: fit_questTheme.of(context)
+                                            .secondaryText,
+                                        size: 24.0,
+                                      ),
+                                      fillColor: fit_questTheme.of(context)
+                                          .secondaryBackground,
+                                      elevation: 2.0,
+                                      borderColor: fit_questTheme.of(context)
+                                          .alternate,
+                                      borderWidth: 2.0,
+                                      borderRadius: 12.0,
+                                      margin: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 4.0, 16.0, 4.0),
+                                      hidesUnderline: true,
+                                      isSearchable: false,
+                                      isMultiSelect: false,
+                                    ),
+                                  ),
+                                  FutureBuilder<List<RepteEstatRow>>(
+                                    future: RepteEstatTable().queryRows(
+                                      queryFn: (q) => q.eqOrNull(
+                                        'id_usuari',
+                                        currentUserUid,
+                                      ),
+                                    ),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 100.0,
+                                            height: 100.0,
+                                            child: SpinKitRipple(
+                                              color: Color(0xFF5AEF39),
+                                              size: 100.0,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      List<RepteEstatRow>
+                                          columnRepteEstatRowList =
+                                          snapshot.data!;
+
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: List.generate(
+                                            columnRepteEstatRowList.length,
+                                            (columnIndex) {
+                                          final columnRepteEstatRow =
+                                              columnRepteEstatRowList[
+                                                  columnIndex];
+                                          return Visibility(
+                                            visible: (columnRepteEstatRow
+                                                        .status ==
+                                                    _model.dropDownValue) ||
+                                                (_model.dropDownValue == null ||
+                                                    _model.dropDownValue == ''),
+                                            child: wrapWithModel(
+                                              model: _model.repteSmallCardModels
+                                                  .getModel(
+                                                columnRepteEstatRow.id
+                                                    .toString(),
+                                                columnIndex,
+                                              ),
+                                              updateCallback: () =>
+                                                  safeSetState(() {}),
+                                              child: RepteSmallCardWidget(
+                                                key: Key(
+                                                  'Keylxb_${columnRepteEstatRow.id.toString()}',
+                                                ),
+                                                repteId:
+                                                    columnRepteEstatRow.idRepte,
+                                                repteEstat:
+                                                    columnRepteEstatRow.status!,
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
@@ -1167,172 +1078,65 @@ class _ProfileWidgetState extends State<ProfileWidget>
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 0.0),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 0.0, 15.0),
-                                        child: Material(
-                                          color: Colors.transparent,
-                                          elevation: 1.0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                          ),
-                                          child: Container(
-                                            width: double.infinity,
-                                            height: 100.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  fit_questTheme.of(context)
-                                                      .primaryBackground,
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0),
-                                            ),
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Container(
-                                                        width: 40.0,
-                                                        height: 40.0,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: fit_questTheme
-                                                                  .of(context)
-                                                              .secondaryBackground,
-                                                          shape:
-                                                              BoxShape.circle,
-                                                        ),
-                                                        child: ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      50.0),
-                                                          child: Image.network(
-                                                            'https://picsum.photos/seed/124/600',
-                                                            width: 50.0,
-                                                            height: 50.0,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Expanded(
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            5.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: Column(
-                                                                  mainAxisSize:
-                                                                      MainAxisSize
-                                                                          .max,
-                                                                  crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                  children: [
-                                                                    Text(
-                                                                      FFLocalizations.of(
-                                                                              context)
-                                                                          .getText(
-                                                                        '2jfrh105' /* Abdullah */,
-                                                                      ),
-                                                                      style: fit_questTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Inter',
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w600,
-                                                                          ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              FFLocalizations.of(
-                                                                      context)
-                                                                  .getText(
-                                                                '18jrhhnt' /* 10/9/2023 */,
-                                                              ),
-                                                              style: fit_questTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Inter',
-                                                                    fontSize:
-                                                                        9.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .normal,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Expanded(
-                                                    child: Align(
-                                                      alignment:
-                                                          AlignmentDirectional(
-                                                              -1.0, 0.0),
-                                                      child: Text(
-                                                        FFLocalizations.of(
-                                                                context)
-                                                            .getText(
-                                                          'xjo3ytj2' /* Lorem Ipsum is simply dummy te... */,
-                                                        ),
-                                                        style: fit_questTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Inter',
-                                                              fontSize: 12.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                            ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                  child: FutureBuilder<List<ValoracionsRow>>(
+                                    future: ValoracionsTable().queryRows(
+                                      queryFn: (q) => q.eqOrNull(
+                                        'id_user',
+                                        currentUserUid,
                                       ),
-                                    ],
+                                    ),
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 100.0,
+                                            height: 100.0,
+                                            child: SpinKitRipple(
+                                              color: Color(0xFF5AEF39),
+                                              size: 100.0,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                      List<ValoracionsRow>
+                                          columnValoracionsRowList =
+                                          snapshot.data!;
+
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: List.generate(
+                                            columnValoracionsRowList.length,
+                                            (columnIndex) {
+                                          final columnValoracionsRow =
+                                              columnValoracionsRowList[
+                                                  columnIndex];
+                                          return wrapWithModel(
+                                            model: _model.reviewCardModels
+                                                .getModel(
+                                              columnValoracionsRow.id
+                                                  .toString(),
+                                              columnIndex,
+                                            ),
+                                            updateCallback: () =>
+                                                safeSetState(() {}),
+                                            child: ReviewCardWidget(
+                                              key: Key(
+                                                'Key3ul_${columnValoracionsRow.id.toString()}',
+                                              ),
+                                              ofertId:
+                                                  columnValoracionsRow.idOferta,
+                                              comentari: columnValoracionsRow
+                                                  .comentari!,
+                                              createdAt: columnValoracionsRow
+                                                  .createdAt,
+                                              rating: columnValoracionsRow
+                                                  .puntuacio!,
+                                            ),
+                                          );
+                                        }),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],

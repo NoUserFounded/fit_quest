@@ -41,6 +41,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
       length: 2,
       initialIndex: 0,
     )..addListener(() => safeSetState(() {}));
+
     _model.emailAddressCreateTextController ??= TextEditingController();
     _model.emailAddressCreateFocusNode ??= FocusNode();
 

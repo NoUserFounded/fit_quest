@@ -121,15 +121,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
                 ),
         ),
         FFRoute(
-          name: ReviewWidget.routeName,
-          path: ReviewWidget.routePath,
-          requireAuth: true,
-          builder: (context, params) => NavBarPage(
-            initialPage: '',
-            page: ReviewWidget(),
-          ),
-        ),
-        FFRoute(
           name: ReceptesWidget.routeName,
           path: ReceptesWidget.routePath,
           requireAuth: true,

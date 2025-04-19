@@ -3,8 +3,11 @@ import '/fit_quest/fit_quest_icon_button.dart';
 import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
 import '/fit_quest/fit_quest_video_player.dart';
+import '/profile/user_img/user_img_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'repte_detail_model.dart';
 export 'repte_detail_model.dart';
 
@@ -32,6 +35,33 @@ class _RepteDetailWidgetState extends State<RepteDetailWidget> {
   void initState() {
     super.initState();
     _model = createModel(context, () => RepteDetailModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.friends = await RepteEstatTable().queryRows(
+        queryFn: (q) => q
+            .eqOrNull(
+              'id_repte',
+              widget.repteId,
+            )
+            .inFilterOrNull(
+              'id_usuari',
+              FFAppState()
+                  .amistats
+                  .map((e) => getJsonField(
+                        e,
+                        r'''$.friendId''',
+                      ))
+                  .toList()
+                  .map((e) => e.toString())
+                  .toList(),
+            )
+            .eqOrNull(
+              'status',
+              'Completat',
+            ),
+      );
+    });
   }
 
   @override
@@ -43,6 +73,8 @@ class _RepteDetailWidgetState extends State<RepteDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return FutureBuilder<List<ReptesRow>>(
       future: ReptesTable().querySingleRow(
         queryFn: (q) => q.eqOrNull(
@@ -223,23 +255,45 @@ class _RepteDetailWidgetState extends State<RepteDetailWidget> {
                                 allowPlaybackSpeedMenu: false,
                               ),
                             ),
-                            Text(
-                              FFLocalizations.of(context).getText(
-                                'jgwf7idl' /* Amics que l'han completat: */,
+                            if (_model.friends != null &&
+                                (_model.friends)!.isNotEmpty)
+                              Text(
+                                FFLocalizations.of(context).getText(
+                                  'jgwf7idl' /* Amics que l'han completat: */,
+                                ),
+                                style: fit_questTheme.of(context)
+                                    .labelLarge
+                                    .override(
+                                      fontFamily: 'Poppins',
+                                      letterSpacing: 0.0,
+                                    ),
                               ),
-                              style: fit_questTheme.of(context)
-                                  .labelLarge
-                                  .override(
-                                    fontFamily: 'Poppins',
-                                    letterSpacing: 0.0,
-                                  ),
-                            ),
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 12.0, 0.0, 32.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [],
+                                  0.0, 12.0, 0.0, 12.0),
+                              child: Builder(
+                                builder: (context) {
+                                  final friendsList =
+                                      _model.friends?.toList() ?? [];
+
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: List.generate(friendsList.length,
+                                        (friendsListIndex) {
+                                      final friendsListItem =
+                                          friendsList[friendsListIndex];
+                                      return Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 5.0, 0.0),
+                                        child: UserImgWidget(
+                                          key: Key(
+                                              'Keykz4_${friendsListIndex}_of_${friendsList.length}'),
+                                          userId: friendsListItem.idUsuari,
+                                        ),
+                                      );
+                                    }),
+                                  );
+                                },
                               ),
                             ),
                           ],
@@ -272,12 +326,14 @@ class _RepteDetailWidgetState extends State<RepteDetailWidget> {
                           alignment: AlignmentDirectional(0.0, 0.0),
                           child: Text(
                             FFLocalizations.of(context).getText(
-                              'kt5zfew2' /* Get Tickets */,
+                              'kt5zfew2' /* Completar */,
                             ),
                             style: fit_questTheme.of(context)
                                 .titleSmall
                                 .override(
                                   fontFamily: 'Inter',
+                                  color: fit_questTheme.of(context)
+                                      .primaryBackground,
                                   letterSpacing: 0.0,
                                 ),
                           ),

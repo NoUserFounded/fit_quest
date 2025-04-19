@@ -4,7 +4,7 @@ import '/backend/supabase/supabase.dart';
 import '/components/lateral_bar/lateral_bar_widget.dart';
 import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
-import '/reptes/repte_card/repte_card_widget.dart';
+import '/reptes/repte_big_card/repte_big_card_widget.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -220,7 +220,7 @@ class _ReptesListWidgetState extends State<ReptesListWidget> {
                                                           columnIndex];
                                                   return wrapWithModel(
                                                     model: _model
-                                                        .repteCardModels
+                                                        .repteBigCardModels
                                                         .getModel(
                                                       columnReptesRow.id
                                                           .toString(),
@@ -228,7 +228,7 @@ class _ReptesListWidgetState extends State<ReptesListWidget> {
                                                     ),
                                                     updateCallback: () =>
                                                         safeSetState(() {}),
-                                                    child: RepteCardWidget(
+                                                    child: RepteBigCardWidget(
                                                       key: Key(
                                                         'Key8dh_${columnReptesRow.id.toString()}',
                                                       ),

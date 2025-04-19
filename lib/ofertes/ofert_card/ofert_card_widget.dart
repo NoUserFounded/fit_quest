@@ -3,6 +3,7 @@ import '/components/share_menu/share_menu_widget.dart';
 import '/fit_quest/fit_quest_theme.dart';
 import '/fit_quest/fit_quest_util.dart';
 import '/fit_quest/fit_quest_widgets.dart';
+import '/ofertes/review/review_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -290,8 +291,26 @@ class _OfertCardWidgetState extends State<OfertCardWidget> {
                             ),
                           ),
                           FFButtonWidget(
-                            onPressed: () {
-                              print('shareBtn pressed ...');
+                            onPressed: () async {
+                              await showModalBottomSheet(
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                enableDrag: false,
+                                context: context,
+                                builder: (context) {
+                                  return Padding(
+                                    padding: MediaQuery.viewInsetsOf(context),
+                                    child: Container(
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.6,
+                                      child: ReviewWidget(
+                                        idOferta: widget.ofertId!,
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ).then((value) => safeSetState(() {}));
                             },
                             text: FFLocalizations.of(context).getText(
                               'vwyta8ce' /* Valorar */,
