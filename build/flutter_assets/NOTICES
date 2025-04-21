@@ -5883,6 +5883,12 @@ flutter_lints
 flutter_plugin_android_lifecycle
 flutter_shaders
 go_router
+google_identity_services_web
+google_sign_in
+google_sign_in_android
+google_sign_in_ios
+google_sign_in_platform_interface
+google_sign_in_web
 image_picker_for_web
 image_picker_linux
 image_picker_macos

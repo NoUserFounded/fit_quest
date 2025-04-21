@@ -1,3 +1,10 @@
+defaultConfig {
+    applicationId "com.tu.paquete"
+    minSdkVersion 19
+    targetSdkVersion 33
+    multiDexEnabled true
+}
+
 allprojects {
     repositories {
         google()
