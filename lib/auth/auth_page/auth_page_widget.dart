@@ -12,6 +12,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'auth_page_model.dart';
 export 'auth_page_model.dart';
+import '/services/auth_service.dart';
 
 class AuthPageWidget extends StatefulWidget {
   const AuthPageWidget({super.key});
@@ -30,6 +31,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   final animationsMap = <String, AnimationInfo>{};
+
+  final AuthService _authService = AuthService();
 
   @override
   void initState() {
@@ -225,7 +228,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                       labelPadding:
                                           EdgeInsetsDirectional.fromSTEB(
                                               32.0, 0.0, 32.0, 0.0),
-                                      labelStyle: fit_questTheme.of(context)
+                                      labelStyle: fit_questTheme
+                                          .of(context)
                                           .titleMedium
                                           .override(
                                             fontFamily: 'Plus Jakarta Sans',
@@ -234,16 +238,16 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
                                           ),
-                                      unselectedLabelStyle:
-                                          fit_questTheme.of(context)
-                                              .titleMedium
-                                              .override(
-                                                fontFamily: 'Plus Jakarta Sans',
-                                                color: Colors.white,
-                                                fontSize: 18.0,
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                      unselectedLabelStyle: fit_questTheme
+                                          .of(context)
+                                          .titleMedium
+                                          .override(
+                                            fontFamily: 'Plus Jakarta Sans',
+                                            color: Colors.white,
+                                            fontSize: 18.0,
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w500,
+                                          ),
                                       indicatorColor: Color(0xFF0F9E8E),
                                       indicatorWeight: 3.0,
                                       tabs: [
@@ -300,16 +304,15 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                     'y2ty5hbk' /* Creación de cuentas */,
                                                   ),
                                                   textAlign: TextAlign.start,
-                                                  style: fit_questTheme.of(
-                                                          context)
+                                                  style: fit_questTheme
+                                                      .of(context)
                                                       .headlineMedium
                                                       .override(
                                                         fontFamily:
                                                             'Plus Jakarta Sans',
-                                                        color:
-                                                            fit_questTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                        color: fit_questTheme
+                                                            .of(context)
+                                                            .primary,
                                                         fontSize: 24.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -326,8 +329,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                       'paq8j8no' /* A continuación debes rellenar ... */,
                                                     ),
                                                     textAlign: TextAlign.start,
-                                                    style: fit_questTheme.of(
-                                                            context)
+                                                    style: fit_questTheme
+                                                        .of(context)
                                                         .labelMedium
                                                         .override(
                                                           fontFamily:
@@ -380,8 +383,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                 'd5jjdwop' /* Email */,
                                                               ),
                                                               labelStyle:
-                                                                  fit_questTheme.of(
-                                                                          context)
+                                                                  fit_questTheme
+                                                                      .of(context)
                                                                       .labelLarge
                                                                       .override(
                                                                         fontFamily:
@@ -455,22 +458,23 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                       .all(
                                                                           24.0),
                                                             ),
-                                                            style: fit_questTheme
+                                                            style:
+                                                                fit_questTheme
                                                                     .of(context)
-                                                                .bodyLarge
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Plus Jakarta Sans',
-                                                                  color: Color(
-                                                                      0xFF101213),
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
+                                                                    .bodyLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Plus Jakarta Sans',
+                                                                      color: Color(
+                                                                          0xFF101213),
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                             keyboardType:
                                                                 TextInputType
                                                                     .emailAddress,
@@ -513,8 +517,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                 'r2bazq6j' /* Confirma la contraseña */,
                                                               ),
                                                               labelStyle:
-                                                                  fit_questTheme.of(
-                                                                          context)
+                                                                  fit_questTheme
+                                                                      .of(context)
                                                                       .labelLarge
                                                                       .override(
                                                                         fontFamily:
@@ -611,22 +615,23 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                 ),
                                                               ),
                                                             ),
-                                                            style: fit_questTheme
+                                                            style:
+                                                                fit_questTheme
                                                                     .of(context)
-                                                                .bodyLarge
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Plus Jakarta Sans',
-                                                                  color: Color(
-                                                                      0xFF101213),
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
+                                                                    .bodyLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Plus Jakarta Sans',
+                                                                      color: Color(
+                                                                          0xFF101213),
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                             validator: _model
                                                                 .confirmPasswordCreateTextControllerValidator
                                                                 .asValidator(
@@ -666,8 +671,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                 '245ev9mc' /* Contraseña */,
                                                               ),
                                                               labelStyle:
-                                                                  fit_questTheme.of(
-                                                                          context)
+                                                                  fit_questTheme
+                                                                      .of(context)
                                                                       .labelLarge
                                                                       .override(
                                                                         fontFamily:
@@ -764,22 +769,23 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                 ),
                                                               ),
                                                             ),
-                                                            style: fit_questTheme
+                                                            style:
+                                                                fit_questTheme
                                                                     .of(context)
-                                                                .bodyLarge
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Plus Jakarta Sans',
-                                                                  color: Color(
-                                                                      0xFF101213),
-                                                                  fontSize:
-                                                                      16.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
+                                                                    .bodyLarge
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Plus Jakarta Sans',
+                                                                      color: Color(
+                                                                          0xFF101213),
+                                                                      fontSize:
+                                                                          16.0,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                    ),
                                                             validator: _model
                                                                 .passwordCreateTextControllerValidator
                                                                 .asValidator(
@@ -986,8 +992,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                             0.0),
                                                                 color: Color(
                                                                     0xFF17A56F),
-                                                                textStyle: fit_questTheme.of(
-                                                                        context)
+                                                                textStyle: fit_questTheme
+                                                                    .of(context)
                                                                     .titleSmall
                                                                     .override(
                                                                       fontFamily:
@@ -1046,7 +1052,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: fit_questTheme
-                                                                  .of(context)
+                                                              .of(context)
                                                               .labelMedium
                                                               .override(
                                                                 fontFamily:
@@ -1107,61 +1113,61 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                   FFButtonWidget(
                                                                 onPressed:
                                                                     () async {
-                                                                  context.pushNamed(
-                                                                      ReptesListWidget
-                                                                          .routeName);
+                                                                  try {
+                                                                    // Lanza el flujo de Google + Supabase
+                                                                    final res =
+                                                                        await _authService.googleSignIn();
+
+                                                                    // Si quieres mostrar un error manualmente en base al objeto AuthResponse,
+                                                                    // puedes descomentar esto (aunque normalmente tu onAuthStateChange
+                                                                    // manejará el éxito):
+                                                                    // if (res.error != null) {
+                                                                    //   ScaffoldMessenger.of(context).showSnackBar(
+                                                                    //     SnackBar(content: Text('Error OAuth: ${res.error!.message}')),
+                                                                    //   );
+                                                                    // }
+                                                                  } catch (e) {
+                                                                    // Si el usuario cancela o hay cualquier otro fallo
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                          content:
+                                                                              Text('Autenticación con Google cancelada o fallida: $e')),
+                                                                    );
+                                                                  }
                                                                 },
-                                                                text: FFLocalizations.of(
-                                                                        context)
-                                                                    .getText(
-                                                                  'unzai3r1' /* Continuar con Google */,
-                                                                ),
+                                                          text: FFLocalizations
+                                                                  .of(context)
+                                                              .getText(
+                                                            'wd96meik' /* Continuar con Google */,
+                                                          ),
                                                                 icon: FaIcon(
-                                                                  FontAwesomeIcons
-                                                                      .google,
-                                                                  size: 20.0,
-                                                                ),
+                                                                    FontAwesomeIcons
+                                                                        .google,
+                                                                    size: 20.0),
                                                                 options:
                                                                     FFButtonOptions(
                                                                   width: 230.0,
                                                                   height: 44.0,
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  iconPadding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
                                                                   color: Colors
                                                                       .white,
-                                                                  textStyle: fit_questTheme.of(
-                                                                          context)
+                                                                  textStyle: fit_questTheme
+                                                                      .of(context)
                                                                       .bodyMedium
                                                                       .override(
                                                                         fontFamily:
                                                                             'Plus Jakarta Sans',
                                                                         color: Color(
                                                                             0xFF101213),
-                                                                        fontSize:
-                                                                            14.0,
-                                                                        letterSpacing:
-                                                                            0.0,
                                                                         fontWeight:
                                                                             FontWeight.bold,
                                                                       ),
-                                                                  elevation:
-                                                                      0.0,
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: Color(
-                                                                        0xFFE0E3E7),
-                                                                    width: 2.0,
-                                                                  ),
+                                                                  borderSide: BorderSide(
+                                                                      color: Color(
+                                                                          0xFFE0E3E7),
+                                                                      width:
+                                                                          2.0),
                                                                   borderRadius:
                                                                       BorderRadius
                                                                           .circular(
@@ -1212,16 +1218,15 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                     'lrz2txwh' /* ¡Bienvenido de nuevo! */,
                                                   ),
                                                   textAlign: TextAlign.start,
-                                                  style: fit_questTheme.of(
-                                                          context)
+                                                  style: fit_questTheme
+                                                      .of(context)
                                                       .headlineMedium
                                                       .override(
                                                         fontFamily:
                                                             'Plus Jakarta Sans',
-                                                        color:
-                                                            fit_questTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                        color: fit_questTheme
+                                                            .of(context)
+                                                            .primary,
                                                         fontSize: 24.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -1238,8 +1243,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                       'uoyucgem' /* Rellana la información con los... */,
                                                     ),
                                                     textAlign: TextAlign.start,
-                                                    style: fit_questTheme.of(
-                                                            context)
+                                                    style: fit_questTheme
+                                                        .of(context)
                                                         .labelMedium
                                                         .override(
                                                           fontFamily:
@@ -1278,8 +1283,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                           'v9p9q6ae' /* Email */,
                                                         ),
                                                         labelStyle:
-                                                            fit_questTheme.of(
-                                                                    context)
+                                                            fit_questTheme
+                                                                .of(context)
                                                                 .labelLarge
                                                                 .override(
                                                                   fontFamily:
@@ -1357,7 +1362,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                     24.0),
                                                       ),
                                                       style: fit_questTheme
-                                                              .of(context)
+                                                          .of(context)
                                                           .bodyLarge
                                                           .override(
                                                             fontFamily:
@@ -1404,8 +1409,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                           'wngvb3my' /* Contraseña */,
                                                         ),
                                                         labelStyle:
-                                                            fit_questTheme.of(
-                                                                    context)
+                                                            fit_questTheme
+                                                                .of(context)
                                                                 .labelLarge
                                                                 .override(
                                                                   fontFamily:
@@ -1505,7 +1510,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                         ),
                                                       ),
                                                       style: fit_questTheme
-                                                              .of(context)
+                                                          .of(context)
                                                           .bodyLarge
                                                           .override(
                                                             fontFamily:
@@ -1600,14 +1605,14 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                       0.0),
                                                           color: Colors.white,
                                                           textStyle:
-                                                              fit_questTheme.of(
-                                                                      context)
+                                                              fit_questTheme
+                                                                  .of(context)
                                                                   .bodyMedium
                                                                   .override(
                                                                     fontFamily:
                                                                         'Plus Jakarta Sans',
-                                                                    color: fit_questTheme.of(
-                                                                            context)
+                                                                    color: fit_questTheme
+                                                                        .of(context)
                                                                         .primary,
                                                                     fontSize:
                                                                         14.0,
@@ -1734,13 +1739,12 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                     0.0,
                                                                     0.0,
                                                                     0.0),
-                                                        color:
-                                                            fit_questTheme.of(
-                                                                    context)
-                                                                .primary,
+                                                        color: fit_questTheme
+                                                            .of(context)
+                                                            .primary,
                                                         textStyle:
-                                                            fit_questTheme.of(
-                                                                    context)
+                                                            fit_questTheme
+                                                                .of(context)
                                                                 .titleSmall
                                                                 .override(
                                                                   fontFamily:
@@ -1786,7 +1790,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: fit_questTheme
-                                                              .of(context)
+                                                          .of(context)
                                                           .labelMedium
                                                           .override(
                                                             fontFamily:
@@ -1829,11 +1833,32 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                     0.0,
                                                                     16.0),
                                                         child: FFButtonWidget(
-                                                          onPressed: () async {
-                                                            context.pushNamed(
-                                                                ReptesListWidget
-                                                                    .routeName);
-                                                          },
+                                                          onPressed:
+                                                                    () async {
+                                                                  try {
+                                                                    // Lanza el flujo de Google + Supabase
+                                                                    final res =
+                                                                        await _authService.googleSignIn();
+
+                                                                    // Si quieres mostrar un error manualmente en base al objeto AuthResponse,
+                                                                    // puedes descomentar esto (aunque normalmente tu onAuthStateChange
+                                                                    // manejará el éxito):
+                                                                    // if (res.error != null) {
+                                                                    //   ScaffoldMessenger.of(context).showSnackBar(
+                                                                    //     SnackBar(content: Text('Error OAuth: ${res.error!.message}')),
+                                                                    //   );
+                                                                    // }
+                                                                  } catch (e) {
+                                                                    // Si el usuario cancela o hay cualquier otro fallo
+                                                                    ScaffoldMessenger.of(
+                                                                            context)
+                                                                        .showSnackBar(
+                                                                      SnackBar(
+                                                                          content:
+                                                                              Text('Autenticación con Google cancelada o fallida: $e')),
+                                                                    );
+                                                                  }
+                                                                },
                                                           text: FFLocalizations
                                                                   .of(context)
                                                               .getText(
@@ -1864,8 +1889,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                         0.0),
                                                             color: Colors.white,
                                                             textStyle:
-                                                                fit_questTheme.of(
-                                                                        context)
+                                                                fit_questTheme
+                                                                    .of(context)
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
